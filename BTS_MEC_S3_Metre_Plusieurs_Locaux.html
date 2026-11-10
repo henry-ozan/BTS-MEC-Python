@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BTS MEC · S3 · Métré de plusieurs locaux</title>
+<style>
+:root{color-scheme:light;--ink:#182d36;--muted:#4d646d;--navy:#142f3d;--accent:#095d53;--mint:#e0f2e9;--line:#c9d9d3;--paper:#f5f6f1;--white:#fff;--warn:#764912;--sand:#fff2d9;font:100%/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper)}[hidden]{display:none!important}a{color:var(--accent);text-underline-offset:.2em}h1,h2,h3,h4{margin:0 0 .45em;line-height:1.15;letter-spacing:-.025em}h1{font-size:clamp(2.05rem,5.8vw,3.9rem);max-width:23ch}h2{font-size:clamp(1.65rem,4vw,2.2rem)}h3{font-size:1.25rem}h4{font-size:1rem}p,ul,ol{margin:.35rem 0 .8rem}ul,ol{padding-left:1.35rem}small,.small{font-size:.87rem;color:var(--muted)}strong{font-weight:740}button,input,textarea{font:inherit}button,summary{cursor:pointer}button{min-height:44px}button:disabled{cursor:default;opacity:.55}:focus-visible{outline:3px solid #a95b04;outline-offset:3px}code,pre,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}code{font-size:.92em}pre{margin:.5rem 0 .7rem;padding:.85rem;overflow:auto;background:#172f40;color:#f2f8f8;border-radius:10px;font-size:.9rem;line-height:1.57;tab-size:4;max-width:100%}
+.shell{width:min(1160px,calc(100% - 48px));margin:auto}.bar{background:var(--navy);color:white}.bar-inner{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:.6rem}.mark{display:inline-grid;place-items:center;background:#a8e5ce;color:var(--navy);height:29px;width:29px;border-radius:7px;margin-right:.5rem;font-size:.82rem;font-weight:850}.bar button{border:0;background:transparent;color:#dff8ed;font-weight:700;text-decoration:underline;text-underline-offset:.23em;padding:.4rem .25rem}.hero{border-radius:20px;margin:1.25rem 0 1rem;padding:clamp(1.15rem,4vw,2.4rem);background:var(--navy);color:#fff;display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,.8fr);align-items:center;gap:1rem}.hero p:not(.tag){color:#e6eff0;max-width:58ch}.hero .tag{color:#a5e4d0}.hero svg{width:100%;height:auto}.tag{font-size:.77rem;letter-spacing:.11em;font-weight:820;color:var(--accent);margin:0 0 .6rem}.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.65rem;margin-top:.95rem}.hero-actions small{color:#d4e8e9}.hero button.primary{background:#a7e8d0;color:var(--navy)}.hero button.primary:hover{background:#ccf5e7}.skip{position:absolute;top:.5rem;left:.5rem;transform:translateY(-170%);padding:.6rem;background:white;z-index:2}.skip:focus{transform:none}
+.route{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.55rem;margin-bottom:1rem}.step{display:grid;grid-template-columns:auto 1fr;gap:.65rem;text-align:left;border:1px solid var(--line);background:#fff;color:var(--ink);padding:.7rem .75rem;border-radius:10px;align-items:center}.step:hover,.step[aria-current="step"]{border-color:#2d7669;background:var(--mint)}.step b{font-size:.88rem;color:var(--accent)}.step small{display:block;font-size:.77rem}.panel{min-width:0;background:white;border:1px solid var(--line);border-radius:16px;padding:clamp(.9rem,2.7vw,1.6rem);margin-bottom:.8rem}.intro{margin-bottom:1rem}.intro p:not(.tag){color:var(--muted);max-width:72ch}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start}.grid>*{min-width:0}.strip,.notice{background:#eef5f1;border-radius:10px;padding:.7rem .8rem;margin:.7rem 0}.strip{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}.strip strong{margin-right:.35rem}.mode[aria-pressed="true"],.room[aria-pressed="true"]{background:var(--mint);border-color:#197367;color:var(--accent);box-shadow:inset 0 0 0 1px #197367}.next-row,.actions{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;margin:.65rem 0}.next-row{justify-content:space-between;margin-top:1.1rem}.primary,.secondary{border:1px solid transparent;border-radius:8px;padding:.48rem .8rem;font-weight:720}.primary{background:var(--accent);color:white}.primary:hover{background:#06483f}.secondary{background:#fff;color:var(--accent);border-color:#86a29b}.secondary:hover{background:var(--mint)}label{display:block;font-weight:690}input,textarea{width:100%;min-width:0;background:#fff;color:var(--ink);border:1px solid #819d96;border-radius:8px;margin:.25rem 0 .45rem;padding:.52rem .62rem;min-height:44px;font-weight:450}textarea{display:block;resize:vertical}input::placeholder,textarea::placeholder{color:#5a6f77;opacity:1}input[type=file]{padding:.4rem;max-width:100%}.field{margin:.45rem 0}.state-line{min-height:1.45rem;margin:.25rem 0 .55rem;color:var(--muted);font-size:.92rem}.state-line.good{color:var(--accent);font-weight:700}.state-line.bad{color:var(--warn);font-weight:700}
+#trace-code span{display:inline-block;min-width:100%}#trace-code .current{background:#bdebd9;color:#142f3d}#console{background:#edf5f2;color:var(--ink);min-height:48px}.table-wrap{overflow-x:auto;max-width:100%;border:1px solid var(--line);border-radius:9px}table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}th,td{padding:.43rem .55rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}thead th{background:#edf4f1;font-size:.84rem}tbody tr:last-child>*{border-bottom:0}tbody tr.now{background:var(--mint);font-weight:740}.trace th,.trace td{text-align:right}.trace th:first-child,.trace td:first-child{text-align:left}.trace caption{text-align:left;padding:.4rem .55rem;font-size:.84rem;color:var(--muted)}details{border-bottom:1px solid var(--line);margin:.3rem 0}summary{color:var(--accent);padding:.55rem 0;min-height:44px;font-weight:720}details p{color:var(--muted)}
+.plan{position:relative;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:minmax(96px,1fr) minmax(86px,.8fr);gap:4px;background:#355b60;border:4px solid #355b60;border-radius:8px;margin:.55rem 0 .45rem}.room{border:2px solid transparent;background:#f0f7f3;color:var(--ink);border-radius:2px;text-align:left;padding:.5rem;font-weight:750;min-width:0}.room:hover{background:#d5eee3}.room span{display:block;font-size:.82rem;font-weight:550;color:var(--muted)}.room:nth-child(2){grid-column:2;grid-row:1 / 3;background-image:repeating-linear-gradient(135deg,transparent 0px,transparent 10px,#8b672025 10px,#8b672025 12px);background-size:25% 24%;background-position:right bottom;background-repeat:no-repeat}.room svg{width:100%;max-height:76px;margin-top:.35rem}.room-symbol{font-size:.74rem}.room-card{border:1px solid var(--line);border-radius:10px;padding:.8rem}.room-card p{max-width:58ch}.recap{margin-top:1rem}.tests{display:grid;gap:.6rem;margin:.7rem 0}.test{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr) minmax(0,1.2fr);gap:.7rem;align-items:start;border:1px solid var(--line);border-radius:10px;padding:.65rem .8rem}.test h4{margin:.2rem 0}.test p{margin:.25rem 0;font-size:.88rem}.test label{font-size:.89rem}.test textarea{min-height:55px}.render-list{padding-left:1.2rem}.render-list li{margin:.25rem 0}.bonus{margin:1rem 0;background:#faf5e9;border:1px solid #dfceaa;border-radius:10px;padding:0 .8rem}.bonus summary{color:#684721}.foot{padding:.4rem 0 1.2rem;color:var(--muted);font-size:.85rem}.noscript{padding:1rem}
+@media(max-width:720px){.shell{width:calc(100% - 24px)}.hero{grid-template-columns:minmax(0,1fr);margin-top:.75rem}.hero svg{display:none}.grid{grid-template-columns:minmax(0,1fr)}.route{grid-template-columns:repeat(2,minmax(0,1fr))}.step{padding:.55rem .65rem}.test{grid-template-columns:repeat(2,minmax(0,1fr))}.test>div:first-child{grid-column:1/-1}.panel{scroll-margin-top:.5rem}}
+@media(max-width:390px){.test{grid-template-columns:minmax(0,1fr)}.trace th,.trace td{padding:.37rem .33rem}.step{gap:.37rem;padding:.5rem .45rem}.actions button{max-width:100%}}
+@media print{.bar,.hero svg,.hero-actions,.route,.next-row,.actions,button,.skip{display:none!important}.shell{width:100%}.hero,.panel{color:#000;background:#fff;border:1px solid #ccc;box-shadow:none}.hero .tag,.hero p:not(.tag){color:#000}.panel[hidden]{display:block!important}.panel{break-inside:avoid-page}pre{color:#000;background:#eee;white-space:pre-wrap}}
+</style>
+</head>
+<body>
+<a class="skip" href="#parcours">Aller au parcours</a>
+<header class="bar"><div class="shell bar-inner"><span><span class="mark" aria-hidden="true">03</span><strong>Atelier Python · BTS MEC</strong></span><button type="button" id="carnet">Mon rendu</button></div></header>
+<main class="shell">
+<section class="hero" aria-labelledby="titre">
+<div><p class="tag">SÉANCE 03 · LOT REVÊTEMENTS DE SOL</p><h1 id="titre">Un métré, plusieurs locaux</h1><p>Tu prépares le métré d’une maison des associations. Observe une boucle, relève les surfaces sur le plan, puis vérifie que ton programme prend en compte une annexe ajoutée au dossier.</p><div class="hero-actions"><button type="button" id="start" class="primary">Commencer le banc d’essai</button><small>60 min indicatives · Dossier fictif</small></div></div>
+<svg aria-hidden="true" viewBox="0 0 300 145"><defs><pattern id="grid" width="15" height="15" patternUnits="userSpaceOnUse"><path d="M15 0H0V15" fill="none" stroke="#7db7b5" opacity=".27"/></pattern></defs><rect width="300" height="145" fill="url(#grid)"/><path d="M17 25h126v93H17z M17 75h68m0-50v93m58-38h-28v38" stroke="#9be3cd" fill="none" stroke-width="2"/><path d="M155 72h44m-9-7 9 7-9 7" stroke="#c1dfdf" fill="none"/><path d="M213 34h58l13 12v64h-71z M224 56h45m-45 12h29m-29 12h45m-45 12h33" stroke="#9be3cd" fill="none"/><text x="27" y="52" fill="#a8e8d4" font-size="12">A</text><text x="104" y="53" fill="#a8e8d4" font-size="12">B</text><text x="27" y="98" fill="#a8e8d4" font-size="12">C</text></svg>
+</section>
+<nav id="parcours" tabindex="-1" class="route" aria-label="Parcours de la séance">
+<button class="step" type="button" data-go="0"><b>01</b><span><strong>Observer</strong><small>10 min · Boucle</small></span></button>
+<button class="step" type="button" data-go="1"><b>02</b><span><strong>Métrer</strong><small>15 min · Plan</small></span></button>
+<button class="step" type="button" data-go="2"><b>03</b><span><strong>Coder et tester</strong><small>25 min · Python</small></span></button>
+<button class="step" type="button" data-go="3"><b>04</b><span><strong>Expliquer et rendre</strong><small>10 min · Bilan</small></span></button>
+</nav>
+<section class="panel" data-stage="0" aria-labelledby="s0">
+<header class="intro"><p class="tag">01 · OBSERVER</p><h2 id="s0" tabindex="-1">Que garde la boucle en mémoire ?</h2><p>Le banc rejoue un exemple sur trois petits locaux. Lis le code, prévois l’affichage, puis avance d’un tour à la fois.</p></header>
+<div class="strip" role="group" aria-label="Emplacement de l’initialisation"><strong>Où placer <code>cumul = 0</code> ?</strong><button type="button" class="secondary mode" data-mode="0">Avant la boucle</button><button type="button" class="secondary mode" data-mode="1">Dans la boucle</button></div>
+<div class="grid">
+<div><h3>Programme de démonstration</h3><pre id="trace-code" tabindex="0" aria-label="Code de démonstration"></pre>
+<details><summary><span aria-hidden="true">ⓘ </span> Lire <code>for surface in surfaces</code></summary><p><code>surfaces</code> est la liste. À chaque tour, <code>surface</code> prend une valeur de cette liste. Le bloc indenté est exécuté pour cette valeur.</p></details>
+<details><summary><span aria-hidden="true">ⓘ </span> Comprendre le signe <code>=</code></summary><p>Python lit la valeur à droite du signe, puis la stocke dans la variable de gauche. Ainsi, <code>cumul = cumul + surface</code> repart de l’ancien cumul pour en calculer un nouveau.</p></details></div>
+<div><label for="prediction">Ma prévision pour ce programme</label><input id="prediction" maxlength="120" placeholder="Quel total sera affiché ?">
+<div class="actions"><button class="primary" type="button" id="tour"></button><button class="secondary" type="button" id="replay" hidden>Rejouer les tours</button></div>
+<p id="trace-state" class="state-line" role="status"></p>
+<div class="table-wrap"><table class="trace"><caption>Trace de la boucle · valeurs en m²</caption><thead><tr><th scope="col">Tour</th><th scope="col">Surface</th><th scope="col">Avant l’ajout</th><th scope="col">Après</th></tr></thead><tbody id="trace"></tbody></table></div>
+<pre id="console" tabindex="0" aria-label="Console de la démonstration">En attente d’un essai.</pre>
+</div></div>
+<div class="notice"><strong>À comparer</strong><p>Rejoue les deux programmes. En binôme, expliquez pourquoi un des deux conserve uniquement la dernière surface.</p><label for="observation">Mon explication</label><textarea id="observation" maxlength="1300" rows="2" placeholder="À quel moment le cumul repart-il de zéro ?"></textarea></div>
+<div class="next-row"><span></span><button type="button" class="primary" data-go="1">Ouvrir le plan du chantier →</button></div>
+</section>
+<section class="panel" data-stage="1" aria-labelledby="s1" hidden>
+<header class="intro"><p class="tag">02 · MÉTRER</p><h2 id="s1" tabindex="-1">Construis ton relevé de surfaces</h2><p>Calcule la surface nette de chaque local. Le placard fixe de la salle B reste en place et son emprise est à déduire. Toutes les dimensions sont en mètres.</p></header>
+<div class="grid">
+<div><h3>Plan de repérage</h3><p class="small">Schéma hors échelle. Sélectionne un local pour lire ses cotes.</p>
+<div class="plan" role="group" aria-label="Choisir un local sur le plan">
+<button type="button" class="room" data-room="0">A · Accueil<span>Rectangle</span></button>
+<button type="button" class="room" data-room="1">B · Salle d’activités<span>Rectangle avec retrait</span></button>
+<button type="button" class="room" data-room="2">C · Bureau<span>Rectangle</span></button>
+</div><p class="small">Zone hachurée dans B · placard à déduire.</p></div>
+<div class="room-card"><h3 id="room-title"></h3><p id="room-data"></p>
+<label for="operation">Opération utilisée</label><input id="operation" maxlength="180" placeholder="Écris le calcul, avec les parenthèses si besoin.">
+<label for="area">Surface nette (m²)</label><input id="area" inputmode="decimal" maxlength="16" placeholder="Ex. 12,50">
+<div class="actions"><button type="button" class="secondary" id="check-room">Vérifier ce local</button></div>
+<p id="room-status" class="state-line" role="status"></p></div>
+</div>
+<section class="recap" aria-labelledby="rel">
+<h3 id="rel">Tableau de contrôle manuel</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">Local</th><th scope="col">Calcul saisi</th><th scope="col">Surface saisie</th></tr></thead><tbody id="survey"></tbody></table></div>
+<div class="field"><label for="total">Mon total de référence (m²)</label><input id="total" inputmode="decimal" maxlength="16" placeholder="Additionne les trois surfaces nettes."></div>
+<div class="actions"><button type="button" class="secondary" id="check-total">Vérifier le relevé</button></div><p id="total-status" class="state-line" role="status"></p>
+<details><summary><span aria-hidden="true">ⓘ </span> Un indice pour le local B</summary><p>Calcule l’aire du rectangle entier et celle du placard séparément. Demande-toi laquelle doit être soustraite.</p></details>
+</section>
+<div class="next-row"><button type="button" class="secondary" data-go="0">← Revoir la boucle</button><button type="button" class="primary" data-go="2">Écrire le programme →</button></div>
+</section>
+<section class="panel" data-stage="2" aria-labelledby="s2" hidden>
+<header class="intro"><p class="tag">03 · CODER ET TESTER</p><h2 id="s2" tabindex="-1">Écris une boucle qui s’adapte au dossier</h2><p>Dans l’éditeur Python de cours, saisis la liste des surfaces de ton relevé, écris la boucle et affiche le total avec le libellé « Surface totale », deux décimales et l’unité m².</p></header>
+<div class="grid"><div><h3>Un point de départ</h3><pre id="starter" tabindex="0" aria-label="Code de départ">surfaces = []  # Saisis les surfaces nettes en m².
+# Initialise le cumul.
+# Parcours la liste et ajoute chaque surface.
+# Affiche le total après la boucle.</pre>
+<div class="actions"><button type="button" class="secondary" id="copy">Copier le départ</button></div><p id="copy-status" class="state-line" role="status"></p></div>
+<div><h3>Indices à la demande</h3>
+<details><summary><span aria-hidden="true">ⓘ </span> Construire une liste</summary><p>Les crochets entourent les valeurs, séparées par des virgules. Dans Python, les décimaux s’écrivent avec un point. Par exemple <code>[3.5, 2.75]</code>.</p></details>
+<details><summary><span aria-hidden="true">ⓘ </span> Organiser la boucle</summary><p>Crée ton cumul avant <code>for</code>. Après les deux-points, indente l’instruction qui ajoute la surface. Place le <code>print()</code> après la boucle, au même niveau que <code>for</code>.</p></details>
+<details><summary><span aria-hidden="true">ⓘ </span> Afficher deux décimales</summary><p>Sur une autre variable, <code>print(f"Montant : {montant:.2f} €")</code> affiche deux chiffres après le point. Adapte le nom de la variable, le libellé et l’unité.</p></details></div></div>
+<label for="code">Mon programme Python de référence (cas A + B + C)</label><textarea id="code" class="mono" rows="8" maxlength="12000" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Colle ici le programme exécuté dans l’éditeur Python."></textarea>
+<h3>Trois essais à consigner</h3><p>Calcule d’abord le résultat attendu, puis exécute le programme. Pour les variantes, change uniquement la liste.</p>
+<div class="tests" id="tests"></div>
+<details class="bonus"><summary>Pour aller plus loin · Filtrer avec <code>if</code></summary><p>Pour une variante du devis, on veut isoler les locaux dont la surface nette atteint au moins 17 m². Sur le dossier A + B + C, compte ces locaux et calcule leur total. Reteste ensuite avec un seuil égal à la surface du local A. Observe si A est toujours inclus.</p><label for="bonus">Mon code de variante et mes deux essais</label><textarea id="bonus" class="mono" maxlength="7000" rows="5" spellcheck="false" placeholder="Code, entrées, sorties et conclusion."></textarea></details>
+<div class="next-row"><button type="button" class="secondary" data-go="1">← Retour au relevé</button><button type="button" class="primary" data-go="3">Préparer mon rendu →</button></div>
+</section>
+<section class="panel" data-stage="3" aria-labelledby="s3" hidden>
+<header class="intro"><p class="tag">04 · EXPLIQUER ET RENDRE</p><h2 id="s3" tabindex="-1">Prouve que ton programme fonctionne</h2><p>Relis ton métré, ton code et les sorties de tes essais. Explique ce que l’ajout de l’annexe t’a permis de vérifier.</p></header>
+<div class="grid"><div>
+<label for="conclusion">Mon bilan de contrôle</label><textarea id="conclusion" rows="5" maxlength="2000" placeholder="De combien le total a-t-il changé ? Pourquoi un seul local peut-il masquer une remise à zéro du cumul dans la boucle ?"></textarea>
+<h3>Traces dans mon rendu</h3><ul id="checklist" class="render-list"></ul>
+</div><div>
+<div class="grid"><div><label for="given">Prénom</label><input id="given" maxlength="45" autocomplete="off" placeholder="Ex. Lina"></div><div><label for="family">3 premières lettres du nom</label><input id="family" maxlength="3" autocomplete="off" placeholder="Ex. DUB"></div></div>
+<div class="actions"><button class="primary" type="button" id="export">Exporter le rendu TXT</button><button class="secondary" type="button" id="backup">Sauvegarder en JSON</button></div>
+<details id="restore"><summary>Reprendre une sauvegarde JSON</summary><p>Le fichier choisi remplacera le carnet ouvert sur cet appareil.</p><label for="import">Fichier de sauvegarde S3</label><input id="import" type="file" accept=".json,application/json"></details>
+<details id="clear-box"><summary>Nouveau carnet sur ce navigateur</summary><p>Sur un poste partagé, exporte ton rendu et ta sauvegarde avant de vider le carnet.</p><button type="button" class="secondary" id="clear">Vider le carnet local</button></details>
+<p id="storage" class="small"></p><p id="export-status" class="state-line" role="status"></p>
+</div></div>
+<div class="next-row"><button type="button" class="secondary" data-go="2">← Retour au programme</button></div>
+</section>
+<footer class="foot">BTS Management économique de la construction · Mathématiques techniques · S3</footer>
+</main>
+<noscript><p class="noscript">Active JavaScript dans ton navigateur pour utiliser le banc d’essai et le carnet.</p></noscript>
+<script>
+"use strict";
+
+const storageKey = "bts-mec-python-s3-metre-v1";
+const demo = [6, 7.5, 4];
+const rooms = [
+  { name: "A · Accueil", dimensions: "Rectangle de 4,80 m × 3,60 m. Toute la surface est à revêtir.", cents: 1728 },
+  { name: "B · Salle d’activités", dimensions: "Rectangle de 5,20 m × 4,10 m. Déduis le placard fixe de 0,90 m × 1,20 m.", cents: 2024 },
+  { name: "C · Bureau", dimensions: "Rectangle de 4,50 m × 3,20 m. Toute la surface est à revêtir.", cents: 1440 }
+];
+const cases = [
+  ["01 · Dossier de base", "Utilise les surfaces nettes des locaux A, B et C, dans cet ordre."],
+  ["02 · Annexe ajoutée", "Ajoute l’annexe D de 2,40 m × 1,75 m, entièrement à revêtir. Ajoute sa surface à la fin de la liste."],
+  ["03 · Un seul local", "Remplace la liste par une liste qui contient uniquement la surface nette du local B."]
+];
+const texts = { observation: 1300, total: 16, code: 12000, bonus: 7000, conclusion: 2000, given: 45, family: 3 };
+const fr = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 2 });
+const $ = id => document.getElementById(id);
+const selectAll = selector => Array.from(document.querySelectorAll(selector));
+const totalCents = rooms.reduce((total, room) => total + room.cents, 0);
+
+function fresh() {
+  return {
+    format: storageKey, stage: 0, mode: 0, room: 0,
+    demo: demo.slice(0, 2).map(() => ({ step: 0, draft: "", prediction: "" })),
+    survey: rooms.map(() => ({ operation: "", area: "", verified: false })),
+    tests: cases.map(() => ({ expected: "", output: "" })),
+    fields: Object.fromEntries(Object.keys(texts).map(key => [key, ""])),
+    totalVerified: false
+  };
+}
+
+function asCents(text) {
+  const value = text.trim().replace(",", ".");
+  return /^\d{1,8}(?:\.\d{1,2})?$/.test(value) ? Math.round(Number(value) * 100) : NaN;
+}
+
+function restore(raw) {
+  if (!raw || raw.format !== storageKey || !Array.isArray(raw.demo) || !Array.isArray(raw.survey) || !Array.isArray(raw.tests)) {
+    throw new Error("Ce fichier ne correspond pas à la séance S3.");
+  }
+  const data = fresh();
+  const text = (value, limit) => typeof value === "string" ? value.slice(0, limit) : "";
+  for (const [key, max] of [["stage", 3], ["mode", 1], ["room", rooms.length - 1]]) {
+    if (Number.isInteger(raw[key]) && raw[key] >= 0 && raw[key] <= max) data[key] = raw[key];
+  }
+  data.demo.forEach((entry, i) => {
+    const saved = raw.demo[i] || {};
+    if (Number.isInteger(saved.step) && saved.step >= 0 && saved.step <= demo.length) entry.step = saved.step;
+    entry.draft = text(saved.draft, 120);
+    entry.prediction = text(saved.prediction, 120);
+  });
+  data.survey.forEach((entry, i) => {
+    const saved = raw.survey[i] || {};
+    entry.operation = text(saved.operation, 180);
+    entry.area = text(saved.area, 16);
+    entry.verified = saved.verified === true && entry.operation.trim() !== "" && asCents(entry.area) === rooms[i].cents;
+  });
+  data.tests.forEach((entry, i) => {
+    const saved = raw.tests[i] || {};
+    entry.expected = text(saved.expected, 80);
+    entry.output = text(saved.output, 2000);
+  });
+  for (const [key, max] of Object.entries(texts)) data.fields[key] = text(raw.fields?.[key], max);
+  data.totalVerified = raw.totalVerified === true && data.survey.every(room => room.verified) && asCents(data.fields.total) === totalCents;
+  return data;
+}
+
+let state = fresh();
+let loadWarning = "";
+try {
+  const saved = localStorage.getItem(storageKey);
+  if (saved) state = restore(JSON.parse(saved));
+} catch {
+  loadWarning = "La reprise locale a échoué. Si tu as un JSON, importe-le dans Mon rendu. ";
+}
+
+function save() {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(state));
+    $("storage").textContent = loadWarning + "Travail enregistré sur ce navigateur.";
+  } catch {
+    $("storage").textContent = "Enregistrement local indisponible. Garde une sauvegarde JSON.";
+  }
+}
+
+function elt(tag, text, className) {
+  const element = document.createElement(tag);
+  if (text !== undefined) element.textContent = text;
+  if (className) element.className = className;
+  return element;
+}
+
+function status(id, text, type = "") {
+  $(id).className = "state-line" + (type ? " " + type : "");
+  $(id).textContent = text;
+}
+
+function go(stage, focus = false) {
+  state.stage = stage;
+  selectAll("[data-stage]").forEach(section => { section.hidden = Number(section.dataset.stage) !== stage; });
+  selectAll(".step").forEach(button => {
+    if (Number(button.dataset.go) === stage) button.setAttribute("aria-current", "step");
+    else button.removeAttribute("aria-current");
+  });
+  if (stage === 3) renderChecklist();
+  if (focus) $("s" + stage).focus();
+  save();
+}
+
+function demoRows(mode) {
+  let cumul = 0;
+  return demo.map((surface, index) => {
+    const before = mode === 1 ? 0 : cumul;
+    cumul = before + surface;
+    return [index + 1, surface, before, cumul];
+  });
+}
+
+function drawDemo() {
+  const { step, draft, prediction } = state.demo[state.mode];
+  selectAll(".mode").forEach(button => button.setAttribute("aria-pressed", String(Number(button.dataset.mode) === state.mode)));
+  $("prediction").value = draft;
+  const lines = ["surfaces = [6, 7.5, 4]"];
+  if (state.mode === 0) lines.push("cumul = 0");
+  lines.push("for surface in surfaces:");
+  if (state.mode === 1) lines.push("    cumul = 0");
+  lines.push("    cumul = cumul + surface", 'print(f"Surface totale : {cumul:.2f} m²")');
+  $("trace-code").replaceChildren();
+  lines.forEach((line, i) => {
+    const highlight = step > 0 && i === lines.length - 2;
+    $("trace-code").append(elt("span", line, highlight ? "current" : ""));
+    if (i < lines.length - 1) $("trace-code").append("\n");
+  });
+  const rows = demoRows(state.mode);
+  $("trace").replaceChildren(...rows.map((row, i) => {
+    const tr = elt("tr", undefined, step === i + 1 ? "now" : "");
+    row.forEach((value, j) => tr.append(elt("td", j > 1 && i >= step ? "—" : fr.format(value))));
+    return tr;
+  }));
+  const finished = step === demo.length;
+  $("tour").textContent = finished ? "Rejouer depuis le tour 1" : "Exécuter le tour " + (step + 1);
+  $("replay").hidden = step === 0 || finished;
+  $("console").textContent = finished
+    ? "Surface totale : " + rows[step - 1][3].toFixed(2) + " m²"
+    : step ? "La boucle continue. L’affichage vient après le dernier tour." : "En attente d’un essai.";
+  const endNote = finished ? " Sortie : " + $("console").textContent + "." : "";
+  const tourNote = step ? "Tour " + step + " sur " + demo.length + " · cumul après l’ajout : " + fr.format(rows[step - 1][3]) + " m²." : "Choisis un emplacement et lance le premier tour.";
+  status("trace-state", tourNote + endNote + (step && prediction ? " Prévision saisie : " + prediction : ""));
+}
+
+function drawRoom() {
+  const room = rooms[state.room];
+  const entry = state.survey[state.room];
+  selectAll(".room").forEach(button => button.setAttribute("aria-pressed", String(Number(button.dataset.room) === state.room)));
+  $("room-title").textContent = room.name;
+  $("room-data").textContent = room.dimensions;
+  $("operation").value = entry.operation;
+  $("area").value = entry.area;
+  status("room-status", entry.verified ? "Surface vérifiée. Relis aussi ton opération." : "", entry.verified ? "good" : "");
+}
+
+function drawSurvey() {
+  $("survey").replaceChildren(...state.survey.map((entry, i) => {
+    const tr = elt("tr");
+    const title = elt("th", rooms[i].name);
+    title.scope = "row";
+    tr.append(title, elt("td", entry.operation.trim() || "—"),
+      elt("td", entry.area.trim() ? entry.area + " m²" + (entry.verified ? " · vérifiée" : "") : "—"));
+    return tr;
+  }));
+}
+
+function checkRoom() {
+  const room = rooms[state.room];
+  const entry = state.survey[state.room];
+  const value = asCents(entry.area);
+  entry.verified = entry.operation.trim() !== "" && value === room.cents;
+  if (entry.verified) status("room-status", "Surface vérifiée. Relis aussi ton opération.", "good");
+  else if (!entry.operation.trim() || !Number.isFinite(value)) {
+    status("room-status", "Saisis ton opération et une surface numérique à deux décimales au maximum.", "bad");
+  } else {
+    const hint = state.room === 1 ? "Vérifie les deux produits et la déduction du placard." : "Reprends le produit des deux dimensions du local.";
+    status("room-status", "La surface saisie diffère du résultat attendu. " + hint, "bad");
+  }
+  drawSurvey();
+  save();
+}
+
+function checkTotal() {
+  const value = asCents(state.fields.total);
+  state.totalVerified = state.survey.every(entry => entry.verified) && value === totalCents;
+  if (state.totalVerified) status("total-status", "Total cohérent avec les trois surfaces vérifiées.", "good");
+  else if (!state.survey.every(entry => entry.verified)) status("total-status", "Vérifie chaque local sur le plan avant de contrôler le total.", "bad");
+  else if (!Number.isFinite(value)) status("total-status", "Saisis un total numérique à deux décimales au maximum.", "bad");
+  else status("total-status", "Reprends l’addition des trois surfaces nettes du tableau.", "bad");
+  save();
+}
+
+function testField(i, key, labelText, multiline) {
+  const id = "test-" + i + "-" + key;
+  const box = elt("div");
+  const label = elt("label", labelText);
+  label.htmlFor = id;
+  const field = elt(multiline ? "textarea" : "input");
+  field.id = id;
+  field.maxLength = multiline ? 2000 : 80;
+  if (multiline) field.rows = 2;
+  else field.inputMode = "decimal";
+  field.value = state.tests[i][key];
+  field.addEventListener("input", () => {
+    state.tests[i][key] = field.value;
+    save();
+  });
+  box.append(label, field);
+  return box;
+}
+
+function drawTests() {
+  $("tests").replaceChildren(...cases.map(([title, detail], i) => {
+    const item = elt("div", undefined, "test");
+    item.setAttribute("role", "group");
+    item.setAttribute("aria-labelledby", "case-" + i);
+    const intro = elt("div");
+    const heading = elt("h4", title);
+    heading.id = "case-" + i;
+    intro.append(heading, elt("p", detail));
+    item.append(intro, testField(i, "expected", "Total prévu (m²)", false),
+      testField(i, "output", "Sortie obtenue dans Python", true));
+    return item;
+  }));
+}
+
+function renderChecklist() {
+  const attempted = state.tests.filter(test => test.expected.trim() && test.output.trim()).length;
+  const recorded = [
+    [state.demo.every(entry => entry.step === demo.length) && state.fields.observation.trim(), "Comparaison des deux boucles"],
+    [state.totalVerified, "Métré et total de référence vérifiés"],
+    [state.fields.code.trim(), "Code Python renseigné"],
+    [attempted === cases.length, "Essais documentés : " + attempted + " / " + cases.length],
+    [state.fields.conclusion.trim(), "Bilan expliqué"]
+  ];
+  $("checklist").replaceChildren(...recorded.map(([done, label]) => elt("li", (done ? "Présent · " : "À compléter · ") + label)));
+}
+
+function renderAll() {
+  for (const id of Object.keys(texts)) $(id).value = state.fields[id];
+  drawDemo();
+  drawRoom();
+  drawSurvey();
+  drawTests();
+  status("total-status", state.totalVerified ? "Total cohérent avec les trois surfaces vérifiées." : "", state.totalVerified ? "good" : "");
+  go(state.stage);
+}
+
+function identity() {
+  const given = state.fields.given.trim().normalize("NFC");
+  const family = state.fields.family.trim().normalize("NFC");
+  if (!/^\p{L}[\p{L} ’'-]*$/u.test(given)) {
+    status("export-status", "Saisis ton prénom pour identifier le rendu.", "bad");
+    $("given").focus();
+    return;
+  }
+  if (!/^\p{L}{3}$/u.test(family)) {
+    status("export-status", "Saisis les trois premières lettres de ton nom.", "bad");
+    $("family").focus();
+    return;
+  }
+  return { given, family: family.toLocaleUpperCase("fr-FR") };
+}
+
+function report({ given, family }) {
+  const value = text => text.trim() || "[non renseigné]";
+  const lines = ["BTS MEC · S3 · UN MÉTRÉ, PLUSIEURS LOCAUX", "Prénom : " + given,
+    "Trois premières lettres du nom : " + family, "", "1. BANC D’ESSAI (démonstration guidée)"];
+  state.demo.forEach((entry, mode) => {
+    lines.push(mode === 0 ? "Initialisation avant la boucle" : "Initialisation dans la boucle",
+      "Prévision : " + value(entry.step ? entry.prediction : entry.draft),
+      "Tours joués : " + entry.step + " / " + demo.length);
+    if (entry.step) {
+      lines.push("Tour | surface | avant l’ajout | après (m²)");
+      demoRows(mode).slice(0, entry.step).forEach(row => lines.push(row.join(" | ")));
+    }
+  });
+  lines.push("Explication : " + value(state.fields.observation), "", "2. RELEVÉ DE SURFACES");
+  state.survey.forEach((entry, i) => {
+    lines.push(rooms[i].name + " | " + rooms[i].dimensions,
+      "Calcul : " + value(entry.operation), "Surface nette en m² : " + value(entry.area));
+  });
+  lines.push("Total de référence en m² : " + value(state.fields.total), "", "3. PROGRAMME PYTHON DE RÉFÉRENCE", value(state.fields.code),
+    "", "4. ESSAIS DANS L’ÉDITEUR PYTHON (sorties consignées par l’étudiant)");
+  state.tests.forEach((entry, i) => lines.push(cases[i][0] + " · " + cases[i][1],
+    "Total prévu en m² : " + value(entry.expected), "Sortie obtenue : " + value(entry.output)));
+  lines.push("", "5. BILAN DE CONTRÔLE", value(state.fields.conclusion));
+  if (state.fields.bonus.trim()) lines.push("", "POUR ALLER PLUS LOIN", state.fields.bonus);
+  return lines.join("\n");
+}
+
+function download(text, type, filename) {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const link = elt("a");
+  link.href = url;
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+selectAll("[data-go]").forEach(button => button.addEventListener("click", () => go(Number(button.dataset.go), true)));
+$("start").addEventListener("click", () => go(0, true));
+$("carnet").addEventListener("click", () => go(3, true));
+selectAll(".mode").forEach(button => button.addEventListener("click", () => {
+  state.mode = Number(button.dataset.mode);
+  drawDemo();
+  save();
+}));
+$("prediction").addEventListener("input", () => { state.demo[state.mode].draft = $("prediction").value; save(); });
+$("tour").addEventListener("click", () => {
+  const entry = state.demo[state.mode];
+  if (entry.step === 0 || entry.step === demo.length) {
+    entry.prediction = entry.draft.trim();
+    entry.step = 0;
+  }
+  entry.step++;
+  drawDemo();
+  save();
+});
+$("replay").addEventListener("click", () => {
+  state.demo[state.mode].step = 0;
+  drawDemo();
+  $("tour").focus();
+  save();
+});
+selectAll(".room").forEach(button => button.addEventListener("click", () => {
+  state.room = Number(button.dataset.room);
+  drawRoom();
+  save();
+}));
+for (const id of ["operation", "area"]) {
+  $(id).addEventListener("input", () => {
+    const entry = state.survey[state.room];
+    entry[id] = $(id).value;
+    entry.verified = false;
+    state.totalVerified = false;
+    status("room-status", "");
+    status("total-status", "");
+    drawSurvey();
+    save();
+  });
+}
+$("check-room").addEventListener("click", checkRoom);
+$("check-total").addEventListener("click", checkTotal);
+for (const id of Object.keys(texts)) {
+  $(id).addEventListener("input", () => {
+    state.fields[id] = $(id).value;
+    if (id === "total") {
+      state.totalVerified = false;
+      status("total-status", "");
+    }
+    if (id === "conclusion") renderChecklist();
+    save();
+  });
+}
+$("copy").addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText($("starter").textContent);
+    status("copy-status", "Départ copié. Colle-le dans ton éditeur Python.", "good");
+  } catch {
+    const range = document.createRange();
+    range.selectNodeContents($("starter"));
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    status("copy-status", "Code sélectionné. Copie-le avec la commande de ton appareil.");
+  }
+});
+$("export").addEventListener("click", () => {
+  const id = identity();
+  if (!id) return;
+  const stem = (id.given + "_" + id.family).normalize("NFD").replace(/\p{M}/gu, "").replace(/[^A-Za-z0-9_-]/g, "_");
+  download(report(id), "text/plain;charset=utf-8", "BTS_MEC_S3_" + stem + ".txt");
+  status("export-status", "Téléchargement du TXT demandé. Dépose-le selon la consigne du cours.", "good");
+});
+$("backup").addEventListener("click", () => {
+  download(JSON.stringify(state, null, 2), "application/json", "BTS_MEC_S3_sauvegarde.json");
+  status("export-status", "Téléchargement de la sauvegarde JSON demandé.", "good");
+});
+$("import").addEventListener("change", async () => {
+  const file = $("import").files[0];
+  if (!file) return;
+  try {
+    if (file.size > 200000) throw new Error("Cette sauvegarde est trop volumineuse.");
+    state = restore(JSON.parse(await file.text()));
+    state.stage = 3;
+    loadWarning = "";
+    renderAll();
+    $("restore").open = false;
+    $("restore").querySelector("summary").focus();
+    status("export-status", "Sauvegarde reprise.", "good");
+  } catch (error) {
+    const reason = error instanceof SyntaxError ? "Le fichier JSON n’est pas lisible." : error.message;
+    status("export-status", reason + " Le carnet ouvert est conservé.", "bad");
+  } finally {
+    $("import").value = "";
+  }
+});
+$("clear").addEventListener("click", () => {
+  state = fresh();
+  state.stage = 3;
+  loadWarning = "";
+  renderAll();
+  $("clear-box").open = false;
+  $("clear-box").querySelector("summary").focus();
+  status("export-status", "Nouveau carnet prêt sur ce navigateur.", "good");
+});
+renderAll();
+</script>
+</body>
+</html>
