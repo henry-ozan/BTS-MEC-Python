@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Atelier Python · BTS MEC</title>
+  <style>:root {
+  color-scheme: light;
+  --paper: #f5f6f2;
+  --white: #fff;
+  --ink: #142b34;
+  --muted: #4b6169;
+  --navy: #112f3c;
+  --green: #056054;
+  --mint: #e2f3ea;
+  --line: #cad8d4;
+  --sand: #fcf3dd;
+  --radius: 16px;
+  font: 100%/1.55 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); }
+html { scroll-padding-top: 20px; }
+a { color: var(--green); text-underline-offset: 3px; }
+p { margin: 0 0 .75rem; }
+h1, h2, h3, h4 { line-height: 1.16; margin: 0 0 .55rem; letter-spacing: -.024em; }
+h1 { font-size: clamp(2.35rem, 4.65vw, 3.55rem); font-weight: 780; }
+h2 { font-size: clamp(1.65rem, 4vw, 2.35rem); }
+h3 { font-size: 1.26rem; }
+h4 { font-size: .98rem; }
+code, pre, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+button, input, textarea, select { font: inherit; }
+button, select, summary { cursor: pointer; }
+button, .start, .carnet-link { min-height: 44px; }
+:focus-visible { outline: 3px solid #ab5900; outline-offset: 3px; }
+.skip { position: absolute; top: .5rem; left: .5rem; transform: translateY(-180%); background: #fff; padding: .65rem; z-index: 3; }
+.skip:focus { transform: none; }
+.shell { width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
+.mast { background: var(--navy); color: #fff; }
+.mast-row, .brand, .carnet-link, .start { display: flex; align-items: center; gap: .65rem; }
+.mast-row { min-height: 58px; justify-content: space-between; }
+.brand { font-weight: 750; }
+.mark { display: grid; place-items: center; width: 31px; height: 31px; background: #abebd2; color: var(--navy); border-radius: 8px; }
+.brand-meta { color: #bbe0dc; font-size: .76rem; padding-left: .65rem; border-left: 1px solid #64848b; white-space: nowrap; }
+.carnet-link { color: #e8faf4; text-decoration: none; font-weight: 650; white-space: nowrap; }
+.carnet-link:hover { text-decoration: underline; }
+.hero { margin-top: 1.35rem; background: var(--navy); color: #fff; border-radius: 21px; padding: clamp(1.3rem, 4vw, 2.75rem); display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, .8fr); align-items: center; gap: 1.35rem; }
+.hero p:not(.tag) { max-width: 58ch; color: #e2eef0; font-size: 1.06rem; }
+.hero .tag { color: #a3e6cf; }
+.blueprint { display: block; width: 100%; height: auto; }
+.tag { color: var(--green); font-weight: 800; font-size: .76rem; letter-spacing: .09em; }
+.start { display: inline-flex; margin-top: .32rem; background: #a7e9d1; color: #122e34; font-weight: 760; padding: .45rem .8rem; border-radius: 9px; text-decoration: none; }
+.start:hover { background: #ccf5e6; }
+.routine { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem 1.45rem; margin: 1.1rem 0; padding: 0; list-style: none; font-weight: 680; }
+.routine li { display: flex; gap: .45rem; align-items: center; }
+.routine span { display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1px solid var(--line); border-radius: 50%; color: var(--green); font-size: .81rem; background: #fff; }
+.layout { display: grid; grid-template-columns: 228px minmax(0, 1fr); align-items: start; gap: 1rem; }
+.route { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem; }
+.route h2 { font-size: 1.24rem; }
+.route p { color: var(--muted); font-size: .88rem; }
+#route { display: grid; gap: .38rem; }
+.post { width: 100%; display: grid; grid-template-columns: auto 1fr; gap: .55rem; text-align: left; align-items: start; border: 1px solid transparent; border-radius: 9px; color: var(--ink); background: #f4f7f5; padding: .54rem .55rem; }
+.post:hover { border-color: #7d9d94; }
+.post[aria-current="true"] { border-color: #277363; background: var(--mint); }
+.post-number { color: var(--green); font-size: .76rem; margin-top: .1rem; font-weight: 800; }
+.post strong { display: block; font-size: .9rem; line-height: 1.22; }
+.post small { display: block; font-size: .73rem; margin-top: .2rem; color: var(--muted); }
+#work { min-width: 0; }
+.lab-intro { padding: .2rem .2rem .55rem; }
+.lab-intro p:not(.tag) { color: var(--muted); max-width: 66ch; }
+.exercise, .challenge, .explain, .carnet { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(.8rem, 2.5vw, 1.35rem); }
+.exercise-header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem 1rem; margin-bottom: .65rem; }
+.exercise-header span { font-size: .8rem; color: var(--green); background: var(--mint); border-radius: 99px; padding: .16rem .65rem; }
+.exercise .bench-note { margin-bottom: .7rem; }
+.controls, .bench, .work-fields, .identity { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; }
+.controls { background: #f1f6f4; border-radius: 10px; padding: .75rem; margin-bottom: .95rem; }
+label { display: block; font-weight: 680; }
+input:not([type="file"]), textarea, select { width: 100%; min-width: 0; border: 1px solid #809b94; background: #fff; color: var(--ink); min-height: 44px; padding: .52rem .58rem; border-radius: 8px; font-weight: 440; margin-top: .24rem; }
+input::placeholder, textarea::placeholder { color: #586c74; opacity: 1; }
+textarea { resize: vertical; display: block; }
+.source { min-width: 0; }
+.source h4 { display: flex; justify-content: space-between; gap: .5rem; }
+.source h4 span { color: var(--muted); font-size: .78rem; font-weight: 650; }
+pre { margin: .35rem 0 .65rem; border-radius: 10px; padding: .8rem; white-space: pre; overflow: auto; line-height: 1.57; font-size: .9rem; tab-size: 4; }
+#snippet { background: #152f40; color: #f1faf9; min-height: 107px; }
+#snippet .line { display: inline-block; min-width: 100%; }
+#snippet .active-line { color: #18372e; background: #b5ead6; }
+.syntax-str { color: #b8ebcb; }
+.syntax-num { color: #ffd395; }
+.syntax-key { color: #b2d7ff; font-weight: 740; }
+.active-line .syntax-str, .active-line .syntax-num, .active-line .syntax-key { color: inherit; }
+.trial { min-width: 0; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: .55rem; margin: .55rem 0 .75rem; }
+button.primary, button.secondary { border-radius: 8px; border: 1px solid transparent; padding: .5rem .8rem; font-weight: 700; text-align: center; }
+button.primary { background: var(--green); color: #fff; }
+button.primary:hover { background: #03493f; }
+button.secondary { background: #fff; color: var(--green); border-color: #799a92; }
+button.secondary:hover { background: var(--mint); }
+button:disabled { opacity: .53; cursor: default; }
+.small { font-size: .85rem; color: var(--muted); margin: .35rem 0; }
+.console-box h4 { margin-top: .75rem; }
+#console { background: #eaf2ef; border: 1px solid var(--line); min-height: 3rem; margin-bottom: .5rem; }
+.feedback { border-left: 4px solid var(--green); background: var(--mint); padding: .6rem .7rem; margin: .6rem 0; border-radius: 0 8px 8px 0; font-size: .92rem; }
+.feedback.warn { background: var(--sand); border-color: #956014; }
+.diagram { padding: .65rem; background: #f3f7f5; border-radius: 10px; margin: .7rem 0; font-size: .91rem; }
+.diagram p:last-child { margin-bottom: 0; }
+.branch-head { font-weight: 700; text-align: center; }
+.branches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem; }
+.branch { padding: .4rem; border: 1px dashed #7c9590; border-radius: 7px; text-align: center; overflow-wrap: anywhere; }
+.branch.on { border: 2px solid var(--green); background: var(--mint); }
+.branch small { display: block; }
+.trace { width: 100%; border-collapse: collapse; text-align: right; font-variant-numeric: tabular-nums; }
+.trace th, .trace td { padding: .27rem .22rem; border-bottom: 1px solid var(--line); }
+.trace th:first-child, .trace td:first-child { text-align: left; }
+.trace tr.current { background: #d8eee3; font-weight: 750; }
+.plan { width: 100%; max-height: 158px; }
+.flowline { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0; padding: 0; list-style: none; }
+.flowline li { border: 1px solid var(--line); background: #fff; border-radius: 7px; padding: .22rem .4rem; }
+.flowline strong { display: block; }
+.explain, .challenge, .carnet { margin-top: 1rem; }
+details { border-bottom: 1px solid var(--line); }
+summary { padding: .55rem 0; min-height: 44px; color: var(--green); font-weight: 700; }
+details p { color: var(--muted); }
+#starter, #solution { background: #edf4f2; border: 1px solid var(--line); }
+.work-fields { margin: .7rem 0 .8rem; }
+#solution-box { margin-top: .55rem; }
+.next-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .55rem; margin-top: .7rem; }
+.carnet { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 1.15rem; }
+#export-status { min-height: 1.3rem; }
+#reset-box { padding-bottom: .35rem; }
+footer { padding: 1.1rem 0; font-size: .84rem; color: var(--muted); }
+@media (max-width: 880px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  #route { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 620px) {
+  .shell { width: calc(100% - 24px); }
+  .hero { grid-template-columns: minmax(0, 1fr); margin-top: .75rem; }
+  .blueprint { display: none; }
+  .brand-meta { display: none; }
+  .bench, .work-fields, .carnet { grid-template-columns: minmax(0, 1fr); }
+  #route { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .post { padding: .48rem .32rem; gap: .32rem; }
+  .routine { column-gap: .8rem; font-size: .88rem; }
+}
+@media (max-width: 385px) {
+  .controls { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#work">Aller au poste d’entraînement</a>
+<header class="mast">
+  <div class="shell mast-row">
+    <span class="brand"><span class="mark" aria-hidden="true">▧</span> Atelier Python <span class="brand-meta">BTS MEC</span></span>
+    <a class="carnet-link" href="#carnet">Mon carnet <span aria-hidden="true">↓</span></a>
+  </div>
+</header>
+<main id="main" class="shell">
+  <section class="hero" aria-labelledby="title">
+    <div>
+      <p class="tag">MATHÉMATIQUES TECHNIQUES · ENTRAÎNEMENT</p>
+      <h1 id="title">Du plan au programme</h1>
+      <p>Essaie une instruction, observe ce qu’elle change, puis écris ton programme sur un nouveau cas.</p>
+      <a href="#work" class="start" id="start-link">Commencer avec <code>print()</code> <span aria-hidden="true">↓</span></a>
+    </div>
+    <svg viewBox="0 0 340 166" class="blueprint" aria-hidden="true">
+      <defs>
+        <pattern id="heroGrid" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M18 0H0V18" fill="none" stroke="#70a8ab" opacity=".25"/></pattern>
+        <pattern id="heroHatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0v8" stroke="#92e5cb" opacity=".35"/></pattern>
+      </defs>
+      <path d="M0 0h340v166H0z" fill="url(#heroGrid)"/>
+      <path d="M42 33h130v31h-38v63H42z" fill="#123d42" stroke="#92e5cb" stroke-width="2"/>
+      <path d="M134 64h38v63h-38z" fill="url(#heroHatch)" stroke="#92e5cb" stroke-dasharray="4 4"/>
+      <path d="M42 140h130M42 135v10m130-10v10M28 33v94M23 33h10m-10 94h10M177 80h58m-9-6 9 6-9 6" fill="none" stroke="#b0cbd0"/>
+      <path d="M250 45h60l15 15v63h-75z" fill="#163b48" stroke="#92e5cb"/>
+      <path d="M264 69h43m-43 13h30m-30 13h39m-39 13h24" stroke="#92e5cb" opacity=".7"/>
+      <text x="48" y="25" fill="#b5d6d8" font-size="10" letter-spacing="2">MÉTRÉ</text>
+      <text x="248" y="140" fill="#b5d6d8" font-size="10" letter-spacing="2">CODE</text>
+    </svg>
+  </section>
+  <ol class="routine" aria-label="Méthode de travail">
+    <li><span>1</span> Prévoir</li><li><span>2</span> Tester</li><li><span>3</span> Expliquer</li><li><span>4</span> Coder</li>
+  </ol>
+  <div class="layout">
+    <aside class="route">
+      <h2>Les postes</h2>
+      <p id="progress">0 / 6 postes avec une trace</p>
+      <nav id="route" aria-label="Postes d’entraînement"></nav>
+    </aside>
+    <article id="work" tabindex="-1" aria-labelledby="lab-title">
+      <div class="lab-intro">
+        <p class="tag" id="lab-lesson"></p>
+        <h2 id="lab-title" tabindex="-1"></h2>
+        <p id="lab-goal"></p>
+      </div>
+      <section class="exercise" aria-label="Banc d’essai">
+        <div class="exercise-header">
+          <h3>Banc d’essai</h3><span>Exemples guidés</span>
+        </div>
+        <p class="small bench-note">Le banc rejoue des exemples vérifiés avec Python. Tu exécuteras ton propre code dans l’éditeur de cours.</p>
+        <div id="controls" class="controls"></div>
+        <div class="bench">
+          <div class="source">
+            <h4>Programme à lire <span>Python</span></h4>
+            <pre id="snippet" tabindex="0" aria-label="Exemple de code Python"><code></code></pre>
+            <div id="illustration" hidden></div>
+          </div>
+          <div class="trial">
+            <label for="prediction">Ma prévision</label>
+            <input id="prediction" maxlength="400" placeholder="Qu’affichera ou fera le programme ?">
+            <p id="prediction-info" class="small">Fais une prévision, même si tu hésites.</p>
+            <div class="actions">
+              <button id="run" class="primary" type="button">Lancer l’essai</button>
+              <button id="all" class="secondary" type="button" hidden>Voir l’exécution complète</button>
+            </div>
+            <div id="visual" hidden></div>
+            <div class="console-box">
+              <h4>Console de l’exemple</h4>
+              <pre id="console" aria-label="Sortie du programme" tabindex="0" role="status"></pre>
+            </div>
+            <p id="explanation" class="feedback" hidden></p>
+            <div id="reason-box" hidden>
+              <label for="reason">Mon observation</label>
+              <textarea id="reason" rows="2" maxlength="1800" placeholder="Quel résultat confirme ou contredit ta prévision ? Pourquoi ?"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="explain" aria-labelledby="help-title">
+        <h3 id="help-title">Comprendre les instructions</h3>
+        <div id="help"></div>
+      </section>
+      <section class="challenge" aria-labelledby="challenge-title">
+        <p class="tag">À TOI DE PROGRAMMER</p>
+        <h3 id="challenge-title">Défi dans l’éditeur Python de cours</h3>
+        <p id="task"></p>
+        <p class="small">Copie le départ dans l’éditeur Python, complète et exécute le programme. Reviens ici pour garder ton code, les sorties et ton test.</p>
+        <pre id="starter" tabindex="0" aria-label="Code de départ"></pre>
+        <button id="copy" class="secondary" type="button">Copier le départ</button>
+        <span id="copy-status" class="small" role="status"></span>
+        <details id="hint-box"><summary><span aria-hidden="true">ⓘ </span> Un indice</summary><p id="hint"></p></details>
+        <div class="work-fields">
+          <label for="own-code">Mon code Python
+            <textarea id="own-code" rows="7" maxlength="12000" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Colle ici le programme que tu as exécuté."></textarea>
+          </label>
+          <label for="own-output">Mes essais et les sorties obtenues
+            <textarea id="own-output" rows="7" maxlength="6000" spellcheck="false" placeholder="Pour chaque test, note les données choisies et la sortie réellement obtenue."></textarea>
+          </label>
+        </div>
+        <label for="conclusion">Mon contrôle ou ma correction</label>
+        <textarea id="conclusion" rows="2" maxlength="2200" placeholder="Compare avec ta prévision ou ton calcul manuel. Si tu as corrigé une erreur, explique laquelle."></textarea>
+        <details id="solution-box"><summary>Voir une correction après avoir essayé</summary>
+          <pre id="solution" tabindex="0" aria-label="Exemple de programme corrigé"></pre>
+          <p id="verify"></p>
+        </details>
+      </section>
+      <div class="next-row">
+        <button id="prev" class="secondary" type="button">← Poste précédent</button>
+        <button id="next" class="secondary" type="button">Poste suivant →</button>
+      </div>
+    </article>
+  </div>
+  <section id="carnet" class="carnet" tabindex="-1" aria-labelledby="carnet-title">
+    <div class="carnet-intro">
+      <p class="tag">REPRISE ET RENDU</p>
+      <h2 id="carnet-title">Mon carnet</h2>
+      <p>Le fichier TXT rassemble tes prévisions, les essais, tes programmes et tes explications. Garde une sauvegarde JSON si tu veux reprendre sur un autre appareil.</p>
+      <p id="storage" class="small"></p>
+    </div>
+    <div class="carnet-body">
+      <div class="identity">
+        <label for="given">Prénom<input id="given" maxlength="40" autocomplete="off" placeholder="Ex. Lina"></label>
+        <label for="family">3 premières lettres du nom<input id="family" maxlength="3" autocomplete="off" placeholder="Ex. DUB"></label>
+      </div>
+      <div class="actions">
+        <button id="export-txt" class="primary" type="button">Exporter mon travail (.txt)</button>
+        <button id="export-json" class="secondary" type="button">Sauvegarder (.json)</button>
+        <button id="import-open" class="secondary" type="button">Reprendre un fichier</button>
+      </div>
+      <div id="import-panel" hidden>
+        <label for="import-file">Choisis une sauvegarde de cet atelier. Après import, elle remplacera le carnet ouvert.</label>
+        <input id="import-file" type="file" accept=".json,application/json">
+      </div>
+      <p id="export-status" role="status" class="small"></p>
+      <details id="reset-box">
+        <summary>Nouveau carnet sur ce navigateur</summary>
+        <p class="small">Sur un poste partagé, exporte ton travail avant de vider le carnet.</p>
+        <button id="reset" class="secondary" type="button">Vider le carnet local</button>
+      </details>
+    </div>
+  </section>
+  <footer>Atelier Python · BTS Management économique de la construction</footer>
+</main>
+<noscript><p>Active JavaScript dans ton navigateur pour utiliser le banc d’essai et enregistrer tes réponses.</p></noscript>
+<script id="lab-data" type="application/json">[{"title":"Afficher avec print()","icon":"01","lesson":"S1 · Affichage","goal":"Prévois la sortie, puis essaie plusieurs manières d’afficher la même donnée.","controls":[{"label":"Valeur de surface","values":["18,746 m²","18,5 m²"]},{"label":"Instruction à essayer","values":["Texte entre guillemets","Valeur d’une variable","Nom mis entre guillemets","Texte, valeur et unité","Valeur arrondie avec round()","round() seul","Deux décimales avec une f-string","Texte + nombre avec le signe +"]}],"cases":[{"code":"surface = 18.746\nprint(\"Surface nette\")","note":"Les guillemets délimitent le texte. Python affiche son contenu sans les guillemets.","kind":"display","data":{"variable":"18.746"},"output":"Surface nette"},{"code":"surface = 18.746\nprint(surface)","note":"Sans guillemets, Python lit la valeur de la variable surface.","kind":"display","data":{"variable":"18.746"},"output":"18.746"},{"code":"surface = 18.746\nprint(\"surface\")","note":"Avec des guillemets, Python affiche le mot surface, même si une variable porte ce nom.","kind":"display","data":{"variable":"18.746"},"output":"surface"},{"code":"surface = 18.746\nprint(\"Surface nette :\", surface, \"m²\")","note":"Les virgules séparent trois arguments. Par défaut, print() insère un espace entre eux.","kind":"display","data":{"variable":"18.746"},"output":"Surface nette : 18.746 m²"},{"code":"surface = 18.746\nprint(\"Surface nette :\", round(surface, 2), \"m²\")","note":"round(surface, 2) renvoie un nombre arrondi. print() affiche ce résultat avec le texte et l’unité. La variable surface garde sa valeur.","kind":"display","data":{"variable":"18.746"},"output":"Surface nette : 18.75 m²"},{"code":"surface = 18.746\nround(surface, 2)","note":"round() calcule et renvoie un nombre. Dans un programme, une expression seule ne produit aucune ligne dans la console.","kind":"display","data":{"variable":"18.746"},"output":""},{"code":"surface = 18.746\nprint(f\"Surface nette : {surface:.2f} m²\")","note":"Le f devant les guillemets permet d’insérer une expression entre accolades. .2f affiche exactement deux chiffres après le point, y compris un zéro final.","kind":"display","data":{"variable":"18.746"},"output":"Surface nette : 18.75 m²"},{"code":"surface = 18.746\nprint(\"Surface nette : \" + surface)","note":"Le signe + sert à concaténer deux textes. Ici, surface est un nombre. Sépare les arguments par une virgule ou utilise une f-string.","kind":"display","data":{"variable":"18.746"},"error":"TypeError: can only concatenate str (not \"float\") to str","output":""},{"code":"surface = 18.5\nprint(\"Surface nette\")","note":"Les guillemets délimitent le texte. Python affiche son contenu sans les guillemets.","kind":"display","data":{"variable":"18.5"},"output":"Surface nette"},{"code":"surface = 18.5\nprint(surface)","note":"Sans guillemets, Python lit la valeur de la variable surface.","kind":"display","data":{"variable":"18.5"},"output":"18.5"},{"code":"surface = 18.5\nprint(\"surface\")","note":"Avec des guillemets, Python affiche le mot surface, même si une variable porte ce nom.","kind":"display","data":{"variable":"18.5"},"output":"surface"},{"code":"surface = 18.5\nprint(\"Surface nette :\", surface, \"m²\")","note":"Les virgules séparent trois arguments. Par défaut, print() insère un espace entre eux.","kind":"display","data":{"variable":"18.5"},"output":"Surface nette : 18.5 m²"},{"code":"surface = 18.5\nprint(\"Surface nette :\", round(surface, 2), \"m²\")","note":"round(surface, 2) renvoie un nombre arrondi. print() affiche ce résultat avec le texte et l’unité. La variable surface garde sa valeur.","kind":"display","data":{"variable":"18.5"},"output":"Surface nette : 18.5 m²"},{"code":"surface = 18.5\nround(surface, 2)","note":"round() calcule et renvoie un nombre. Dans un programme, une expression seule ne produit aucune ligne dans la console.","kind":"display","data":{"variable":"18.5"},"output":""},{"code":"surface = 18.5\nprint(f\"Surface nette : {surface:.2f} m²\")","note":"Le f devant les guillemets permet d’insérer une expression entre accolades. .2f affiche exactement deux chiffres après le point, y compris un zéro final.","kind":"display","data":{"variable":"18.5"},"output":"Surface nette : 18.50 m²"},{"code":"surface = 18.5\nprint(\"Surface nette : \" + surface)","note":"Le signe + sert à concaténer deux textes. Ici, surface est un nombre. Sépare les arguments par une virgule ou utilise une f-string.","kind":"display","data":{"variable":"18.5"},"error":"TypeError: can only concatenate str (not \"float\") to str","output":""}],"help":[["Pourquoi les guillemets ?","Ils créent une chaîne de caractères. Sans guillemets, un nom comme surface renvoie à la variable."],["À quoi servent les virgules ?","Dans print(), elles séparent les arguments. Dans un nombre Python, écris 18.5 avec un point. Dans tes explications en français, tu peux écrire 18,5."],["Arrondir ou afficher deux décimales ?","round(x, 2) renvoie un nombre. Une f-string avec .2f crée un affichage à deux décimales. Pour modifier la valeur stockée, il faut une affectation comme x = round(x, 2)."],["Que fait le signe = ?","Il affecte la valeur de droite au nom de gauche. Pour tester une égalité dans une condition, utilise ==."]],"challenge":{"prompt":"Sur le site Python de cours, affiche la surface 7,5 m² avec un libellé, d’abord avec round(), puis avec deux chiffres après le point. Affiche enfin la valeur brute.","starter":"surface = 7.5\n# Écris trois affichages ici.","hint":"Compare print() avec plusieurs arguments et une f-string. Essaie ensuite avec 7.536.","solution":"surface = 7.5\nprint(\"Surface :\", round(surface, 2), \"m²\")\nprint(f\"Surface : {surface:.2f} m²\")\nprint(surface)","verify":"Avec 7.5, la deuxième ligne affiche 7.50. Avec 7.536, elle affiche 7.54 et la valeur brute reste 7.536."}},{"title":"Calculer une surface","icon":"02","lesson":"S1 · Métré","goal":"Compare ton calcul au plan. Choisis l’opération et vérifie que les unités sont compatibles.","controls":[{"label":"Plan à tester","values":["Local A · 6 × 4 m","Local B · 5,5 × 3 m"]},{"label":"Calcul de surface nette","values":["Soustraire le retrait converti","Ajouter le retrait converti","Soustraire directement en cm²"]}],"cases":[{"code":"longueur_m = 6\nlargeur_m = 4\nretrait_cm = 150\nprofondeur_cm = 100\n\nsurface_brute = longueur_m * largeur_m\nsurface_retrait = (retrait_cm / 100) * (profondeur_cm / 100)\nsurface_nette = surface_brute - surface_retrait\nprint(\"Surface nette :\", round(surface_nette, 2), \"m²\")","note":"Convertis les longueurs du retrait en mètres, calcule les deux aires, puis retranche la zone vide.","kind":"metric","data":{"w":6,"h":4,"rw":150,"rh":100},"output":"Surface nette : 22.5 m²"},{"code":"longueur_m = 6\nlargeur_m = 4\nretrait_cm = 150\nprofondeur_cm = 100\n\nsurface_brute = longueur_m * largeur_m\nsurface_retrait = (retrait_cm / 100) * (profondeur_cm / 100)\nsurface_nette = surface_brute + surface_retrait\nprint(\"Surface nette :\", round(surface_nette, 2), \"m²\")","note":"Ajouter le retrait donne une surface supérieure au rectangle de départ. Le dessin permet de repérer cette incohérence.","kind":"metric","data":{"w":6,"h":4,"rw":150,"rh":100},"output":"Surface nette : 25.5 m²"},{"code":"longueur_m = 6\nlargeur_m = 4\nretrait_cm = 150\nprofondeur_cm = 100\n\nsurface_brute = longueur_m * largeur_m\nsurface_retrait = (retrait_cm / 100) * (profondeur_cm / 100)\nsurface_nette = surface_brute - retrait_cm * profondeur_cm\nprint(\"Surface nette :\", round(surface_nette, 2), \"m²\")","note":"Le retrait a été soustrait en cm² d’une surface en m². Python accepte le calcul. Les unités le rendent incohérent.","kind":"metric","data":{"w":6,"h":4,"rw":150,"rh":100},"output":"Surface nette : -14976 m²"},{"code":"longueur_m = 5.5\nlargeur_m = 3\nretrait_cm = 120\nprofondeur_cm = 50\n\nsurface_brute = longueur_m * largeur_m\nsurface_retrait = (retrait_cm / 100) * (profondeur_cm / 100)\nsurface_nette = surface_brute - surface_retrait\nprint(\"Surface nette :\", round(surface_nette, 2), \"m²\")","note":"Convertis les longueurs du retrait en mètres, calcule les deux aires, puis retranche la zone vide.","kind":"metric","data":{"w":5.5,"h":3,"rw":120,"rh":50},"output":"Surface nette : 15.9 m²"},{"code":"longueur_m = 5.5\nlargeur_m = 3\nretrait_cm = 120\nprofondeur_cm = 50\n\nsurface_brute = longueur_m * largeur_m\nsurface_retrait = (retrait_cm / 100) * (profondeur_cm / 100)\nsurface_nette = surface_brute + surface_retrait\nprint(\"Surface nette :\", round(surface_nette, 2), \"m²\")","note":"Ajouter le retrait donne une surface supérieure au rectangle de départ. Le dessin permet de repérer cette incohérence.","kind":"metric","data":{"w":5.5,"h":3,"rw":120,"rh":50},"output":"Surface nette : 17.1 m²"},{"code":"longueur_m = 5.5\nlargeur_m = 3\nretrait_cm = 120\nprofondeur_cm = 50\n\nsurface_brute = longueur_m * largeur_m\nsurface_retrait = (retrait_cm / 100) * (profondeur_cm / 100)\nsurface_nette = surface_brute - retrait_cm * profondeur_cm\nprint(\"Surface nette :\", round(surface_nette, 2), \"m²\")","note":"Le retrait a été soustrait en cm² d’une surface en m². Python accepte le calcul. Les unités le rendent incohérent.","kind":"metric","data":{"w":5.5,"h":3,"rw":120,"rh":50},"output":"Surface nette : -5983.5 m²"}],"help":[["Lire le plan","La surface brute correspond au rectangle complet. La zone hachurée représente un retrait à déduire."],["Convertir avant de multiplier","Pour convertir une longueur de cm en m, divise par 100. Pour convertir une aire de cm² en m², divise par 10 000."],["Lire les symboles","* multiplie, / divise, - soustrait. Les parenthèses permettent de grouper une opération."]],"challenge":{"prompt":"Une façade de 7 m sur 3 m possède deux ouvertures de 120 cm sur 100 cm. Écris un programme qui affiche la surface nette. Puis teste le cas avec zéro ouverture.","starter":"longueur_m = 7\nhauteur_m = 3\nnb_ouvertures = 2\nlargeur_ouv_cm = 120\nhauteur_ouv_cm = 100\n# Calcule et affiche la surface nette.","hint":"Calcule l’aire d’une ouverture après conversion, puis multiplie-la par le nombre d’ouvertures.","solution":"surface_brute = 7 * 3\nnb_ouvertures = 2\nune_ouverture = (120 / 100) * (100 / 100)\nsurface_nette = surface_brute - nb_ouvertures * une_ouverture\nprint(f\"Surface nette : {surface_nette:.2f} m²\")","verify":"Avec deux ouvertures, 18,60 m². Avec zéro ouverture, 21,00 m²."}},{"title":"Décider avec if / else","icon":"03","lesson":"S2 · Budget","goal":"Essaie les deux conditions à budget égal et observe quel chemin le programme suit.","controls":[{"label":"Budget HT","values":["590 € · inférieur au devis","594 € · égal au devis","600 € · supérieur au devis"]},{"label":"Condition testée","values":["total > budget","total >= budget"]}],"cases":[{"code":"total = 594.00\nbudget = 590.00\n\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"Les deux opérateurs conduisent au même message sur ce cas. L’essai à égalité est celui qui les départage.","kind":"branch","data":{"op":">","branch":true},"output":"Budget dépassé"},{"code":"total = 594.00\nbudget = 590.00\n\nif total >= budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"Les deux opérateurs conduisent au même message sur ce cas. L’essai à égalité est celui qui les départage.","kind":"branch","data":{"op":">=","branch":true},"output":"Budget dépassé"},{"code":"total = 594.00\nbudget = 594.00\n\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"À égalité, > vaut False. La branche else convient à la règle « le budget peut être entièrement utilisé ».","kind":"branch","data":{"op":">","branch":false},"output":"Budget respecté"},{"code":"total = 594.00\nbudget = 594.00\n\nif total >= budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"À égalité, >= vaut True. La branche if annonce un dépassement alors que l’écart est nul.","kind":"branch","data":{"op":">=","branch":true},"output":"Budget dépassé"},{"code":"total = 594.00\nbudget = 600.00\n\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"Les deux opérateurs conduisent au même message sur ce cas. L’essai à égalité est celui qui les départage.","kind":"branch","data":{"op":">","branch":false},"output":"Budget respecté"},{"code":"total = 594.00\nbudget = 600.00\n\nif total >= budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"Les deux opérateurs conduisent au même message sur ce cas. L’essai à égalité est celui qui les départage.","kind":"branch","data":{"op":">=","branch":false},"output":"Budget respecté"}],"help":[["Lire la condition","> signifie strictement supérieur. >= signifie supérieur ou égal. == signifie égal à."],["Pourquoi ces deux blocs ?","Si la condition vaut True (vrai), le bloc if s’exécute. Si elle vaut False (faux), le bloc else s’exécute. Les deux-points introduisent les blocs, dont les lignes sont indentées."],["Quel test est le plus révélateur ?","Essaie de garder le total fixe et de changer seulement le budget. Les deux opérateurs se distinguent dans un seul des trois cas proposés."]],"challenge":{"prompt":"Un devis vaut 312,40 € HT. Le budget peut être entièrement utilisé. Écris la décision en Python, puis exécute-la pour 312,39 €, 312,40 € et 312,41 €.","starter":"total = 312.40\nbudget = 312.39\n# Écris les deux branches et teste les trois budgets.","hint":"Écris d’abord en français la règle qui déclenche le message « Budget dépassé ».","solution":"total = 312.40\nbudget = 312.39\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","verify":"Dans l’ordre des trois budgets : dépassé, respecté, respecté."}},{"title":"Cumuler avec for","icon":"04","lesson":"S3 · Plusieurs locaux","goal":"Avance d’un local à la fois et repère la valeur que le programme conserve.","controls":[{"label":"Liste de surfaces","values":["Trois locaux · 8, 9 et 5 m²","Quatre locaux · 8, 9, 5 et 4 m²","Deux locaux · 12,5 et 8,25 m²"]},{"label":"Emplacement de cumul = 0","values":["Une fois, avant la boucle","À chaque tour, dans la boucle"]}],"cases":[{"code":"surfaces = [8, 9, 5]\ncumul = 0\nfor surface in surfaces:\n    cumul = cumul + surface\nprint(\"Cumul :\", cumul, \"m²\")","note":"Le cumul démarre à zéro une seule fois. La valeur obtenue au tour précédent sert au tour suivant.","kind":"loop","data":[[1,8,0,8],[2,9,8,17],[3,5,17,22]],"output":"Cumul : 22 m²"},{"code":"surfaces = [8, 9, 5]\nfor surface in surfaces:\n    cumul = 0\n    cumul = cumul + surface\nprint(\"Cumul :\", cumul, \"m²\")","note":"Le cumul est remis à zéro à chaque tour. Le programme ne conserve que la surface du dernier local.","kind":"loop","data":[[1,8,0,8],[2,9,0,9],[3,5,0,5]],"output":"Cumul : 5 m²"},{"code":"surfaces = [8, 9, 5, 4]\ncumul = 0\nfor surface in surfaces:\n    cumul = cumul + surface\nprint(\"Cumul :\", cumul, \"m²\")","note":"Le cumul démarre à zéro une seule fois. La valeur obtenue au tour précédent sert au tour suivant.","kind":"loop","data":[[1,8,0,8],[2,9,8,17],[3,5,17,22],[4,4,22,26]],"output":"Cumul : 26 m²"},{"code":"surfaces = [8, 9, 5, 4]\nfor surface in surfaces:\n    cumul = 0\n    cumul = cumul + surface\nprint(\"Cumul :\", cumul, \"m²\")","note":"Le cumul est remis à zéro à chaque tour. Le programme ne conserve que la surface du dernier local.","kind":"loop","data":[[1,8,0,8],[2,9,0,9],[3,5,0,5],[4,4,0,4]],"output":"Cumul : 4 m²"},{"code":"surfaces = [12.5, 8.25]\ncumul = 0\nfor surface in surfaces:\n    cumul = cumul + surface\nprint(\"Cumul :\", cumul, \"m²\")","note":"Le cumul démarre à zéro une seule fois. La valeur obtenue au tour précédent sert au tour suivant.","kind":"loop","data":[[1,12.5,0,12.5],[2,8.25,12.5,20.75]],"output":"Cumul : 20.75 m²"},{"code":"surfaces = [12.5, 8.25]\nfor surface in surfaces:\n    cumul = 0\n    cumul = cumul + surface\nprint(\"Cumul :\", cumul, \"m²\")","note":"Le cumul est remis à zéro à chaque tour. Le programme ne conserve que la surface du dernier local.","kind":"loop","data":[[1,12.5,0,12.5],[2,8.25,0,8.25]],"output":"Cumul : 8.25 m²"}],"help":[["Liste et variable de boucle","Les crochets délimitent la liste. for surface in surfaces prend une valeur de la liste à chaque tour et la place dans surface."],["Que signifie cumul = cumul + surface ?","Python lit l’ancien cumul, ajoute la surface courante et stocke le résultat dans cumul."],["Qu’est-ce qui se répète ?","Les lignes indentées sous for se répètent. Le print() aligné avec for s’exécute après la boucle."]],"challenge":{"prompt":"Totalise [6.5, 4, 2.5] avec for. Vérifie à la main, puis ajoute un local de 3 m² dans la liste et relance.","starter":"surfaces = [6.5, 4, 2.5]\n# Initialise le cumul, parcours la liste, puis affiche.","hint":"Initialise le cumul avant for et affiche-le après la boucle.","solution":"surfaces = [6.5, 4, 2.5]\ncumul = 0\nfor surface in surfaces:\n    cumul = cumul + surface\nprint(\"Total :\", cumul, \"m²\")","verify":"Le premier total vaut 13 m². L’ajout de 3 m² donne 16 m². La boucle reste identique."}},{"title":"Assembler un devis","icon":"05","lesson":"S4 · Cas complet","goal":"Relie le métré, les pertes, la fourniture, la pose et la décision sur un même dossier.","controls":[{"label":"Budget HT","values":["880 €","893 €","920 €"]},{"label":"Surface facturée pour la pose","values":["Surface nette","Quantité majorée"]}],"cases":[{"code":"surfaces = [8, 9, 5]\nsurface_nette = 0\nfor surface in surfaces:\n    surface_nette = surface_nette + surface\n\nquantite = surface_nette * (1 + 8 / 100)\nfourniture = quantite * 25\npose = surface_nette * 12\ntotal = round(fourniture + pose + 35, 2)\nbudget = 880.00\n\nprint(f\"Total HT : {total:.2f} €\")\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"La fourniture se calcule sur la quantité majorée. La pose se calcule sur la surface réellement posée. La livraison s’ajoute une seule fois.","kind":"estimate","data":[22,23.76,594,264,893,880],"output":"Total HT : 893.00 €\nBudget dépassé"},{"code":"surfaces = [8, 9, 5]\nsurface_nette = 0\nfor surface in surfaces:\n    surface_nette = surface_nette + surface\n\nquantite = surface_nette * (1 + 8 / 100)\nfourniture = quantite * 25\npose = quantite * 12\ntotal = round(fourniture + pose + 35, 2)\nbudget = 880.00\n\nprint(f\"Total HT : {total:.2f} €\")\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"Cette version facture la pose sur la quantité livrée, qui contient les pertes. Le devis peut donc dépasser le budget à cause d’une formule erronée.","kind":"estimate","data":[22,23.76,594,285.12,914.12,880],"output":"Total HT : 914.12 €\nBudget dépassé"},{"code":"surfaces = [8, 9, 5]\nsurface_nette = 0\nfor surface in surfaces:\n    surface_nette = surface_nette + surface\n\nquantite = surface_nette * (1 + 8 / 100)\nfourniture = quantite * 25\npose = surface_nette * 12\ntotal = round(fourniture + pose + 35, 2)\nbudget = 893.00\n\nprint(f\"Total HT : {total:.2f} €\")\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"La fourniture se calcule sur la quantité majorée. La pose se calcule sur la surface réellement posée. La livraison s’ajoute une seule fois.","kind":"estimate","data":[22,23.76,594,264,893,893],"output":"Total HT : 893.00 €\nBudget respecté"},{"code":"surfaces = [8, 9, 5]\nsurface_nette = 0\nfor surface in surfaces:\n    surface_nette = surface_nette + surface\n\nquantite = surface_nette * (1 + 8 / 100)\nfourniture = quantite * 25\npose = quantite * 12\ntotal = round(fourniture + pose + 35, 2)\nbudget = 893.00\n\nprint(f\"Total HT : {total:.2f} €\")\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"Cette version facture la pose sur la quantité livrée, qui contient les pertes. Le devis peut donc dépasser le budget à cause d’une formule erronée.","kind":"estimate","data":[22,23.76,594,285.12,914.12,893],"output":"Total HT : 914.12 €\nBudget dépassé"},{"code":"surfaces = [8, 9, 5]\nsurface_nette = 0\nfor surface in surfaces:\n    surface_nette = surface_nette + surface\n\nquantite = surface_nette * (1 + 8 / 100)\nfourniture = quantite * 25\npose = surface_nette * 12\ntotal = round(fourniture + pose + 35, 2)\nbudget = 920.00\n\nprint(f\"Total HT : {total:.2f} €\")\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"La fourniture se calcule sur la quantité majorée. La pose se calcule sur la surface réellement posée. La livraison s’ajoute une seule fois.","kind":"estimate","data":[22,23.76,594,264,893,920],"output":"Total HT : 893.00 €\nBudget respecté"},{"code":"surfaces = [8, 9, 5]\nsurface_nette = 0\nfor surface in surfaces:\n    surface_nette = surface_nette + surface\n\nquantite = surface_nette * (1 + 8 / 100)\nfourniture = quantite * 25\npose = quantite * 12\ntotal = round(fourniture + pose + 35, 2)\nbudget = 920.00\n\nprint(f\"Total HT : {total:.2f} €\")\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","note":"Cette version facture la pose sur la quantité livrée, qui contient les pertes. Le devis peut donc dépasser le budget à cause d’une formule erronée.","kind":"estimate","data":[22,23.76,594,285.12,914.12,920],"output":"Total HT : 914.12 €\nBudget respecté"}],"help":[["L’essentiel du cahier des charges","Fourniture à 25 €/m² sur la quantité avec 8 % de pertes. Pose à 12 €/m² sur la surface nette. Livraison forfaitaire de 35 €."],["Le coefficient de pertes","Majorer de 8 %, c’est multiplier par 1 + 8 / 100 = 1,08. Multiplier seulement par 0,08 donne les pertes seules."],["Quel montant comparer ?","Pour ce dossier, le total HT est arrondi au centime avant la comparaison. L’affichage .2f donne ensuite une présentation à deux décimales."]],"challenge":{"prompt":"Chiffre des locaux de 10, 7,5 et 2,5 m². Prévois 5 % de pertes, une fourniture à 24 €/m², une pose à 11 €/m² net et 30 € de livraison. Teste ton programme avec un budget de 750 €, puis à égalité et un centime en dessous.","starter":"surfaces = [10, 7.5, 2.5]\npertes_pct = 5\nprix_fourniture = 24\nprix_pose = 11\nlivraison = 30\nbudget = 750\n# Calcule le métré, le coût et la décision.","hint":"Commence par contrôler le cumul à la main. Écris ensuite les coûts de fourniture et de pose sur deux lignes distinctes.","solution":"surfaces = [10, 7.5, 2.5]\ncumul = 0\nfor surface in surfaces:\n    cumul = cumul + surface\nquantite = cumul * (1 + 5 / 100)\nfourniture = quantite * 24\npose = cumul * 11\ntotal = round(fourniture + pose + 30, 2)\nbudget = 750\nprint(f\"Total HT : {total:.2f} €\")\nif total > budget:\n    print(\"Budget dépassé\")\nelse:\n    print(\"Budget respecté\")","verify":"20 m² nets, 21 m² à fournir et 754,00 € HT. À 750 € et à 753,99 €, dépassement. À 754 €, budget respecté."}},{"title":"Diagnostiquer et corriger","icon":"06","lesson":"S5–S6 · Révision","goal":"Prévois ce qui va se passer, essaie la version fautive, puis explique la correction.","controls":[{"label":"Situation","values":["Nom de variable mal saisi","Deux-points oubliés","Mauvais calcul des pertes"]},{"label":"Version","values":["Version à diagnostiquer","Version corrigée"]}],"cases":[{"code":"surface = 14.25\nprint(sufrace)","note":"NameError signale un nom inconnu. Compare le nom utilisé dans print() au nom défini à la ligne précédente.","kind":"debug","error":"NameError: name 'sufrace' is not defined","output":""},{"code":"surface = 14.25\nprint(surface)","note":"Les deux écritures de surface correspondent. Python trouve la valeur définie à la ligne 1.","kind":"debug","output":"14.25"},{"code":"total = 420\nbudget = 400\nif total > budget\n    print(\"Budget dépassé\")","note":"SyntaxError indique une instruction mal écrite. Observe la fin de la ligne if.","kind":"debug","error":"File \"\u003catelier>\", line 3\n    if total > budget\n                     ^\nSyntaxError: expected ':'","output":""},{"code":"total = 420\nbudget = 400\nif total > budget:\n    print(\"Budget dépassé\")","note":"Les deux-points annoncent le bloc. Le print() indenté appartient à la condition.","kind":"debug","output":"Budget dépassé"},{"code":"surface = 30\npertes_pct = 8\nquantite = surface * pertes_pct / 100\nprint(\"À fournir :\", quantite, \"m²\")","note":"2,4 m² correspond aux pertes seules. Une quantité avec pertes doit dépasser les 30 m² de départ.","kind":"debug","output":"À fournir : 2.4 m²"},{"code":"surface = 30\npertes_pct = 8\nquantite = surface * (1 + pertes_pct / 100)\nprint(\"À fournir :\", quantite, \"m²\")","note":"Le facteur 1,08 inclut 100 % de la surface et 8 % de pertes. Le résultat est plausible.","kind":"debug","output":"À fournir : 32.400000000000006 m²"}],"help":[["Si Python affiche une erreur","Repère le nom de l’erreur et la ligne indiquée. Vérifie d’abord les noms, les deux-points et l’indentation."],["Si le résultat paraît suspect","Un code qui s’exécute peut appliquer la mauvaise formule. Vérifie l’unité, le signe et un ordre de grandeur à la main."],["Comment prouver une correction ?","Note l’entrée qui révèle l’erreur et exécute le même essai avant et après la modification."]],"challenge":{"prompt":"Le programme ci-dessous doit afficher le total de trois surfaces. Prévois son affichage, corrige le code et relance avec les mêmes valeurs. Puis vérifie le cas d’un seul local.","starter":"surfaces = [9, 4, 5]\nfor surface in surfaces:\n    cumul = 0\n    cumul = cumul + surface\nprint(cumul)","hint":"Observe à quel moment cumul revient à zéro. Un cas à un seul local suffit-il à repérer cette erreur ?","solution":"surfaces = [9, 4, 5]\ncumul = 0\nfor surface in surfaces:\n    cumul = cumul + surface\nprint(cumul)","verify":"Le code fautif affiche 5. Le code corrigé affiche 18. Avec une liste [9], les deux affichent 9."}},{"title":"Créer une fonction","icon":"+","lesson":"Approfondissement · Facultatif","goal":"Observe la différence entre définir une fonction, l’appeler, afficher et renvoyer une valeur.","controls":[{"label":"Dimensions","values":["4 m × 3 m","5 m × 2,5 m"]},{"label":"Version","values":["return, appel puis affichage","print() dans la fonction","Définition seule"]}],"cases":[{"code":"def aire(longueur, largeur):\n    return longueur * largeur\n\nresultat = aire(4, 3)\nprint(\"Aire :\", resultat, \"m²\")","note":"return renvoie une valeur à l’appelant. Elle est stockée dans resultat, puis affichée par print().","kind":"function","output":"Aire : 12 m²"},{"code":"def aire(longueur, largeur):\n    print(longueur * largeur)\n\nresultat = aire(4, 3)\nprint(\"Valeur récupérée :\", resultat)","note":"Le premier nombre est affiché depuis la fonction. Sans return explicite, la valeur récupérée après l’appel est None.","kind":"function","output":"12\nValeur récupérée : None"},{"code":"def aire(longueur, largeur):\n    return longueur * largeur","note":"def crée la fonction. Son bloc attend un appel tel que aire(4, 3) pour s’exécuter.","kind":"function","output":""},{"code":"def aire(longueur, largeur):\n    return longueur * largeur\n\nresultat = aire(5, 2.5)\nprint(\"Aire :\", resultat, \"m²\")","note":"return renvoie une valeur à l’appelant. Elle est stockée dans resultat, puis affichée par print().","kind":"function","output":"Aire : 12.5 m²"},{"code":"def aire(longueur, largeur):\n    print(longueur * largeur)\n\nresultat = aire(5, 2.5)\nprint(\"Valeur récupérée :\", resultat)","note":"Le premier nombre est affiché depuis la fonction. Sans return explicite, la valeur récupérée après l’appel est None.","kind":"function","output":"12.5\nValeur récupérée : None"},{"code":"def aire(longueur, largeur):\n    return longueur * largeur","note":"def crée la fonction. Son bloc attend un appel tel que aire(4, 3) pour s’exécuter.","kind":"function","output":""}],"help":[["Lire def et les paramètres","def introduit une fonction. longueur et largeur sont ses paramètres. Dans aire(4, 3), 4 et 3 sont les valeurs transmises à l’appel."],["Pourquoi return ?","return remet une valeur au code qui a appelé la fonction. Cette valeur peut être stockée, réutilisée dans un calcul ou affichée."]],"challenge":{"prompt":"Écris une fonction quantite(surface, pertes_pct) qui renvoie la surface majorée. Appelle-la pour 20 m² avec 5 % de pertes, puis pour 30 m² avec 0 %.","starter":"def quantite(surface, pertes_pct):\n    # Calcule et renvoie la quantité.\n\n# Appelle la fonction deux fois et affiche les résultats.","hint":"Place return dans le bloc indenté. Fais les appels après ce bloc.","solution":"def quantite(surface, pertes_pct):\n    return surface * (1 + pertes_pct / 100)\n\nprint(quantite(20, 5))\nprint(quantite(30, 0))","verify":"Les deux quantités attendues sont 21 m² et 30 m²."}}]</script>
+<script>"use strict";
+
+const labs = JSON.parse(document.getElementById("lab-data").textContent);
+const storageKey = "bts-mec-atelier-python-v1";
+const format = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 3 });
+const money = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
+const $ = id => document.getElementById(id);
+
+function fresh() {
+  return {
+    format: storageKey,
+    active: 0,
+    given: "",
+    family: "",
+    work: labs.map(() => ({ choices: [0, 0], trials: {}, code: "", output: "", conclusion: "" }))
+  };
+}
+
+function clean(saved) {
+  if (!saved || saved.format !== storageKey || !Array.isArray(saved.work) || saved.work.length !== labs.length) {
+    throw new Error("Ce fichier ne correspond pas à cet atelier.");
+  }
+  const result = fresh();
+  const string = (value, length) => typeof value === "string" ? value.slice(0, length) : "";
+  if (Number.isInteger(saved.active) && labs[saved.active]) result.active = saved.active;
+  result.given = string(saved.given, 40);
+  result.family = string(saved.family, 3);
+  result.work.forEach((entry, i) => {
+    const source = saved.work[i];
+    if (!source || typeof source !== "object") return;
+    const lab = labs[i];
+    entry.choices = lab.controls.map((control, axis) => {
+      const index = source.choices?.[axis];
+      return Number.isInteger(index) && index >= 0 && index < control.values.length ? index : 0;
+    });
+    entry.code = string(source.code, 12000);
+    entry.output = string(source.output, 6000);
+    entry.conclusion = string(source.conclusion, 2200);
+    lab.cases.forEach((example, j) => {
+      const trial = source.trials?.[j];
+      if (!trial || typeof trial !== "object") return;
+      const step = Number.isInteger(trial.step) ? Math.max(0, Math.min(trial.step, end(example))) : 0;
+      entry.trials[j] = {
+        draft: string(trial.draft, 400),
+        predicted: string(trial.predicted, 400),
+        observation: string(trial.observation, 1800),
+        step
+      };
+    });
+  });
+  return result;
+}
+
+let state = fresh();
+try {
+  const saved = localStorage.getItem(storageKey);
+  if (saved) state = clean(JSON.parse(saved));
+} catch {
+  $("storage").textContent = "La reprise locale a échoué. Tu peux importer une sauvegarde JSON.";
+}
+
+function save() {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(state));
+    $("storage").textContent = "Carnet enregistré dans ce navigateur.";
+  } catch {
+    $("storage").textContent = "Enregistrement local indisponible. Télécharge une sauvegarde JSON pour reprendre.";
+  }
+}
+
+function end(example) {
+  return example.kind === "loop" ? example.data.length : 1;
+}
+
+function current() {
+  const lab = labs[state.active];
+  const entry = state.work[state.active];
+  const index = entry.choices[0] * lab.controls[1].values.length + entry.choices[1];
+  entry.trials[index] ??= { draft: "", predicted: "", observation: "", step: 0 };
+  return { lab, entry, index, example: lab.cases[index], trial: entry.trials[index] };
+}
+
+function element(tag, content, className) {
+  const node = document.createElement(tag);
+  if (content !== undefined) node.textContent = content;
+  if (className) node.className = className;
+  return node;
+}
+
+function progress() {
+  let count = 0;
+  state.work.forEach((entry, index) => {
+    const documented = Boolean(entry.code.trim() && entry.output.trim());
+    const observed = Object.values(entry.trials).some(trial => trial.step && trial.observation.trim());
+    if (index < 6 && (documented || observed)) count++;
+    const button = $("route").children[index];
+    button.querySelector("small").textContent = documented ? "Défi documenté" : observed ? "Essai commenté" : labs[index].lesson;
+  });
+  $("progress").textContent = count + " / 6 postes avec une trace";
+}
+
+function renderRoute() {
+  const list = $("route");
+  labs.forEach((lab, i) => {
+    const button = element("button", undefined, "post");
+    button.type = "button";
+    const label = element("span");
+    label.append(element("strong", lab.title), element("small"));
+    button.append(element("span", lab.icon, "post-number"), label);
+    button.addEventListener("click", () => selectLab(i, true));
+    list.append(button);
+  });
+}
+
+function selectLab(index, focus) {
+  state.active = index;
+  render();
+  save();
+  if (focus) $("lab-title").focus();
+}
+
+function render() {
+  const { lab, entry } = current();
+  Array.from($("route").children).forEach((button, i) => {
+    if (i === state.active) button.setAttribute("aria-current", "true");
+    else button.removeAttribute("aria-current");
+  });
+  $("lab-lesson").textContent = lab.lesson;
+  $("lab-title").textContent = lab.title;
+  $("lab-goal").textContent = lab.goal;
+  $("prev").disabled = state.active === 0;
+  $("next").disabled = state.active === labs.length - 1;
+  $("controls").replaceChildren(...lab.controls.map((control, i) => {
+    const field = element("div");
+    const id = "control-" + i;
+    const label = element("label", control.label);
+    label.htmlFor = id;
+    const select = element("select");
+    select.id = id;
+    control.values.forEach((value, j) => {
+      const option = element("option", value);
+      option.value = j;
+      select.append(option);
+    });
+    select.value = entry.choices[i];
+    select.addEventListener("change", () => {
+      entry.choices[i] = Number(select.value);
+      renderTrial();
+      save();
+    });
+    field.append(label, select);
+    return field;
+  }));
+  $("help").replaceChildren(...lab.help.map(([title, body]) => {
+    const details = element("details");
+    details.append(element("summary", "ⓘ " + title), element("p", body));
+    return details;
+  }));
+  $("hint-box").open = false;
+  $("solution-box").open = false;
+  $("copy-status").textContent = "";
+  for (const field of ["task", "starter", "hint", "solution", "verify"]) {
+    $(field).textContent = field === "task" ? lab.challenge.prompt : lab.challenge[field];
+  }
+  $("own-code").value = entry.code;
+  $("own-output").value = entry.output;
+  $("conclusion").value = entry.conclusion;
+  $("given").value = state.given;
+  $("family").value = state.family;
+  renderTrial();
+  progress();
+}
+
+function renderCode(example, trial) {
+  const rows = example.code.split("\n");
+  const activeLine = trial.step
+    ? example.kind === "loop" ? rows.findIndex(line => line.includes("cumul + surface"))
+      : example.kind === "branch" ? rows.findIndex(line => line.startsWith(example.data.branch ? "if " : "else:")) + 1
+      : example.kind === "display" ? 1 : -1
+    : -1;
+  const code = $("snippet").querySelector("code");
+  const token = /("(?:[^"\\]|\\.)*"|\b(?:if|else|for|in|def|return|print|round)\b|\b\d+(?:\.\d+)?\b)/g;
+  code.replaceChildren();
+  rows.forEach((line, index) => {
+    const row = element("span", undefined, "line" + (index === activeLine ? " active-line" : ""));
+    let offset = 0;
+    for (const match of line.matchAll(token)) {
+      const word = match[0];
+      row.append(line.slice(offset, match.index));
+      const type = word.startsWith('"') ? "str" : /^\d/.test(word) ? "num" : "key";
+      row.append(element("span", word, "syntax-" + type));
+      offset = match.index + word.length;
+    }
+    row.append(line.slice(offset));
+    code.append(row);
+    if (index < rows.length - 1) code.append("\n");
+  });
+}
+
+function diagram(example, trial) {
+  const view = $("visual");
+  const picture = $("illustration");
+  view.replaceChildren();
+  picture.replaceChildren();
+  picture.hidden = example.kind !== "metric";
+  if (example.kind === "metric") {
+    const { w, h, rw, rh } = example.data;
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 300 145");
+    svg.setAttribute("class", "plan");
+    svg.setAttribute("aria-hidden", "true");
+    svg.innerHTML = '<defs><pattern id="cut" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0v7" stroke="#8c5f27"/></pattern></defs><path d="M34 20h217v55h-63v52H34z" fill="#e1f3ea" stroke="#176758" stroke-width="2"/><path d="M188 75h63v52h-63z" fill="url(#cut)" stroke="#8c5f27" stroke-dasharray="4 3"/><text x="70" y="72" fill="#174c42" font-size="15">Zone à métrer</text><text x="195" y="105" fill="#643f1a" font-size="13">Retrait</text>';
+    picture.append(svg, element("p", "Schéma. Rectangle de " + format.format(w) + " × " + format.format(h) + " m. Retrait de " + rw + " × " + rh + " cm.", "small"));
+  }
+  const visible = example.kind === "loop" || (trial.step && ["display", "branch", "estimate"].includes(example.kind));
+  view.hidden = !visible;
+  if (!visible) return;
+  view.className = "diagram";
+  if (example.kind === "display") {
+    const line = element("p", "Valeur toujours stockée dans surface : ");
+    line.append(element("strong", example.data.variable));
+    view.append(line);
+  }
+  if (example.kind === "branch") {
+    const taken = example.data.branch;
+    view.append(element("p", "total " + example.data.op + " budget → " + (taken ? "True" : "False"), "branch-head"));
+    const branches = element("div", undefined, "branches");
+    ["if · Oui", "else · Non"].forEach((label, i) => {
+      const on = i === (taken ? 0 : 1);
+      const branch = element("div", undefined, "branch" + (on ? " on" : ""));
+      branch.append(element("strong", label), element("small", on ? "Branche suivie" : "Branche ignorée"));
+      branches.append(branch);
+    });
+    view.append(branches);
+  }
+  if (example.kind === "loop") {
+    view.append(element("p", "Tours exécutés : " + trial.step + " / " + example.data.length));
+    const table = element("table", undefined, "trace");
+    table.setAttribute("aria-label", "Trace du cumul, surfaces en mètres carrés");
+    const header = table.createTHead().insertRow();
+    ["Tour", "Surface", "Avant", "Après"].forEach(label => {
+      const cell = element("th", label);
+      cell.scope = "col";
+      header.append(cell);
+    });
+    const body = table.createTBody();
+    example.data.forEach((row, i) => {
+      const tr = body.insertRow();
+      if (trial.step === i + 1) tr.className = "current";
+      row.forEach((value, col) => {
+        tr.insertCell().textContent = col > 1 && i >= trial.step ? "—" : format.format(value);
+      });
+    });
+    view.append(table);
+  }
+  if (example.kind === "estimate") {
+    const labels = ["Métré net", "Quantité à fournir", "Fourniture", "Pose", "Total HT", "Budget"];
+    const units = example.data.map((value, i) => i < 2 ? format.format(value) + " m²" : money.format(value));
+    const list = element("ul", undefined, "flowline");
+    units.forEach((value, i) => {
+      const item = element("li");
+      item.append(element("strong", labels[i]), value);
+      list.append(item);
+    });
+    view.append(list);
+  }
+}
+
+function outputOf(example, step) {
+  if (!step) return "En attente d’un essai.";
+  if (step < end(example)) return "La boucle continue. print() s’exécute après le dernier tour.";
+  if (example.error) return example.error;
+  return example.output || "Aucune ligne affichée.";
+}
+
+function renderTrial() {
+  const { example, trial } = current();
+  const done = trial.step === end(example);
+  $("prediction").value = trial.draft;
+  $("reason").value = trial.observation;
+  $("reason-box").hidden = !trial.step;
+  $("run").textContent = example.kind === "loop"
+    ? done ? "Rejouer le premier tour" : "Exécuter le tour " + (trial.step + 1)
+    : done ? "Relancer l’essai" : "Lancer l’essai";
+  $("all").hidden = example.kind !== "loop" || done;
+  $("console").textContent = outputOf(example, trial.step);
+  $("explanation").hidden = !done;
+  $("explanation").classList.toggle("warn", Boolean(example.error));
+  $("explanation").textContent = example.note;
+  $("prediction-info").textContent = trial.step
+    ? "Prévision au départ : " + (trial.predicted || "aucune prévision saisie")
+    : "Fais une prévision, même si tu hésites.";
+  renderCode(example, trial);
+  diagram(example, trial);
+}
+
+function run(all = false) {
+  const { example, trial } = current();
+  const last = end(example);
+  if (trial.step === 0 || trial.step === last) trial.predicted = trial.draft.trim();
+  trial.step = all ? last : trial.step === last ? 1 : trial.step + 1;
+  renderTrial();
+  if (all) $("run").focus();
+  progress();
+  save();
+}
+
+function getIdentity() {
+  const given = state.given.trim();
+  const family = state.family.trim().toLocaleUpperCase("fr-FR");
+  const nameLetters = /^[\p{L}][\p{L} '\u2019-]*$/u;
+  if (!nameLetters.test(given)) {
+    $("export-status").textContent = "Indique ton prénom pour que ton travail soit identifiable.";
+    $("given").focus();
+    return;
+  }
+  if (!/^\p{L}{3}$/u.test(family)) {
+    $("export-status").textContent = "Indique les trois premières lettres de ton nom.";
+    $("family").focus();
+    return;
+  }
+  return { given, family };
+}
+
+function report(identity) {
+  const lines = ["ATELIER PYTHON · BTS MEC", "Prénom : " + identity.given,
+    "Trois premières lettres du nom : " + identity.family, ""];
+  state.work.forEach((entry, i) => {
+    const lab = labs[i];
+    const tested = Object.entries(entry.trials).filter(([, trial]) => trial.step || trial.draft.trim());
+    if (!tested.length && ![entry.code, entry.output, entry.conclusion].some(value => value.trim())) return;
+    lines.push("=== " + lab.title + " · " + lab.lesson + " ===");
+    for (const [index, trial] of tested) {
+      const j = Number(index);
+      const options = [Math.floor(j / lab.controls[1].values.length), j % lab.controls[1].values.length];
+      lines.push("Essai guidé");
+      lab.controls.forEach((control, n) => lines.push(control.label + " : " + control.values[options[n]]));
+      lines.push("Prévision : " + ((trial.step ? trial.predicted : trial.draft).trim() || "[non renseignée]"));
+      if (trial.step) {
+        const example = lab.cases[j];
+        lines.push("Instruction(s) testée(s) :", example.code);
+        if (example.kind === "loop") {
+          lines.push("Tours exécutés (tour, surface, cumul avant, cumul après) :");
+          example.data.slice(0, trial.step).forEach(row => lines.push(row.join(" | ")));
+        }
+        lines.push("Console guidée :", outputOf(example, trial.step),
+          "Observation : " + (trial.observation.trim() || "[non renseignée]"));
+      } else lines.push("Essai non lancé.");
+      lines.push("");
+    }
+    lines.push("Défi :", lab.challenge.prompt,
+      "Code de l’étudiant :", entry.code.trim() ? entry.code : "[non renseigné]",
+      "Essais et sorties déclarées :", entry.output.trim() || "[non renseignés]",
+      "Contrôle ou correction :", entry.conclusion.trim() || "[non renseigné]", "");
+  });
+  if (lines.length === 4) lines.push("Aucune trace d’entraînement enregistrée.");
+  return lines.join("\n");
+}
+
+function download(contents, type, filename) {
+  const url = URL.createObjectURL(new Blob([contents], { type }));
+  const link = element("a");
+  link.href = url;
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+function exportTxt() {
+  const identity = getIdentity();
+  if (!identity) return;
+  const stem = (identity.given + "_" + identity.family).normalize("NFD")
+    .replace(/\p{M}/gu, "").replace(/[^A-Za-z0-9_-]/g, "_");
+  download(report(identity), "text/plain;charset=utf-8", "BTS_MEC_Python_" + stem + ".txt");
+  $("export-status").textContent = "Téléchargement du TXT demandé. Dépose ce fichier selon la consigne de cours.";
+}
+
+async function importFile(file) {
+  if (!file) return;
+  try {
+    if (file.size > 1024 * 1024) throw new Error("Cette sauvegarde est trop volumineuse.");
+    const data = clean(JSON.parse(await file.text()));
+    state = data;
+    render();
+    save();
+    $("export-status").textContent = "Sauvegarde reprise.";
+    $("import-panel").hidden = true;
+    $("import-open").setAttribute("aria-expanded", "false");
+    $("import-open").focus();
+  } catch (error) {
+    $("export-status").textContent = error instanceof SyntaxError
+      ? "Le fichier n’est pas un JSON lisible. Le carnet ouvert est conservé."
+      : error.message + " Le carnet ouvert est conservé.";
+  } finally {
+    $("import-file").value = "";
+  }
+}
+
+$("run").addEventListener("click", () => run());
+$("all").addEventListener("click", () => run(true));
+$("prediction").addEventListener("input", event => {
+  current().trial.draft = event.target.value;
+  save();
+});
+$("reason").addEventListener("input", event => {
+  current().trial.observation = event.target.value;
+  progress();
+  save();
+});
+for (const [id, key] of [["own-code", "code"], ["own-output", "output"], ["conclusion", "conclusion"]]) {
+  $(id).addEventListener("input", event => {
+    current().entry[key] = event.target.value;
+    progress();
+    save();
+  });
+}
+for (const id of ["given", "family"]) {
+  $(id).addEventListener("input", event => {
+    state[id] = event.target.value;
+    save();
+  });
+}
+$("copy").addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(current().lab.challenge.starter);
+    $("copy-status").textContent = "Code de départ copié.";
+  } catch {
+    const range = document.createRange();
+    range.selectNodeContents($("starter"));
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    $("copy-status").textContent = "Code sélectionné. Copie-le avec la commande de ton appareil.";
+  }
+});
+$("prev").addEventListener("click", () => selectLab(state.active - 1, true));
+$("next").addEventListener("click", () => selectLab(state.active + 1, true));
+$("start-link").addEventListener("click", event => {
+  event.preventDefault();
+  selectLab(0, true);
+  $("work").scrollIntoView({ block: "start" });
+});
+$("export-txt").addEventListener("click", exportTxt);
+$("export-json").addEventListener("click", () => {
+  download(JSON.stringify(state, null, 2), "application/json", "BTS_MEC_Python_sauvegarde.json");
+  $("export-status").textContent = "Téléchargement de la sauvegarde JSON demandé.";
+});
+$("import-open").setAttribute("aria-controls", "import-panel");
+$("import-open").setAttribute("aria-expanded", "false");
+$("import-open").addEventListener("click", () => {
+  const open = $("import-panel").hidden;
+  $("import-panel").hidden = !open;
+  $("import-open").setAttribute("aria-expanded", String(open));
+  if (open) $("import-file").focus();
+});
+$("import-file").addEventListener("change", event => importFile(event.target.files[0]));
+$("reset").addEventListener("click", () => {
+  state = fresh();
+  render();
+  save();
+  $("reset-box").open = false;
+  $("reset-box").querySelector("summary").focus();
+  $("export-status").textContent = "Nouveau carnet prêt. Les fichiers déjà téléchargés restent disponibles.";
+});
+renderRoute();
+render();
+if (!$("storage").textContent) save();
+</script>
+</body>
+</html>
