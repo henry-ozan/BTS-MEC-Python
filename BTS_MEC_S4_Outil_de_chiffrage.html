@@ -1,0 +1,261 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>S4 | Programmer un outil de chiffrage réutilisable</title><style>:root{--ink:#20374a;--navy:#172b3b;--accent:#325f78;--muted:#4b6576;--line:#ccdbe2;--white:#fff;--pale:#ebf3f6;--canvas:#f1f5f6;--teal:#275c58}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:var(--canvas);color:var(--ink);font:16px/1.53 system-ui,Segoe UI,sans-serif}h1,h2,h3,h4,p{margin:0}h1{font-size:clamp(27px,4vw,44px);line-height:1.08;letter-spacing:-.03em;margin:6px 0 9px}h2{font-size:clamp(25px,3.3vw,35px);line-height:1.15;letter-spacing:-.03em;margin:4px 0 7px}h3{font-size:20px;line-height:1.3;margin:4px 0 11px}h4{font-size:17px}.hero{background:var(--navy);color:#fff;border-bottom:4px solid #8bb2bb}.hero-inner{max-width:1250px;margin:auto;padding:21px 27px;display:flex;align-items:center;justify-content:space-between;gap:14px}.hero-inner>div>p:last-child{font-size:14px;color:#e5edf2}.kicker,.tag,.duration{font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:.09em;color:var(--teal)}.hero .kicker,.tag{color:#cae1e9}.tag{white-space:nowrap;font-family:ui-monospace,Consolas,monospace}.shell{max-width:1250px;margin:20px auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:19px;padding:0 22px}.rail,.card{background:white;border:1px solid var(--line);border-radius:10px;min-width:0}.rail{padding:13px;align-self:start;position:sticky;top:12px;max-height:calc(100dvh - 24px);overflow:auto}.rail nav{display:grid;gap:6px;margin:12px 0}.rail .nav{min-width:0;display:grid;grid-template-columns:23px 1fr;gap:6px;text-align:left;width:100%;background:var(--pale);color:var(--ink);border-color:transparent;line-height:1.32;padding:9px}.rail .nav[aria-current=step]{background:var(--accent);color:white}.num{font:700 15px/1.35 ui-monospace,Consolas,monospace}.nav small{display:block;margin-top:3px;font-weight:500}.session{border-top:1px solid var(--line);padding-top:8px}.session label{font-size:12px}.session input{padding:5px 7px}.session .buttons{margin:4px 0}.session details{margin-top:8px}.session progress{width:100%;height:12px;accent-color:var(--teal)}.card{padding:17px 20px;margin:0 0 12px}.card p{margin:8px 0 11px}.card>:last-child{margin-bottom:0}.headstep{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:14px}.duration{white-space:nowrap;background:#deeeeb;padding:6px 10px;border-radius:9px}.lede{color:var(--muted)}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.note,.hint{background:var(--pale);border-left:3px solid #79a4af;border-radius:4px;padding:9px 12px}.hint{margin:8px 0}.hint details{margin-bottom:0}.hint p{margin:3px 0}.hint pre{margin:5px 0}.note{font-size:14px}.drills,.brief{padding-left:24px;margin:0 0 10px}.drills li{padding:8px 0;border-bottom:1px solid #e0eaee}.drills li::marker{color:var(--accent);font-weight:750}.drills li>div{padding-top:2px}.brief li{margin:6px 0}.spec{display:grid;grid-template-columns:1fr auto;margin:6px 0;font-size:14px;column-gap:8px}.spec dt,.spec dd{margin:0;border-bottom:1px solid #e1eaee;padding:7px 0}.spec dd{text-align:right;font-weight:700}pre{margin:8px 0;background:var(--navy);color:#f2f8fb;border-radius:7px;padding:11px 14px;overflow-x:auto;white-space:pre;tab-size:4;font:14px/1.55 ui-monospace,Consolas,monospace}code,.mono{font-family:ui-monospace,Consolas,monospace}code{background:#edf4f6;padding:1px 3px;border-radius:3px;color:#294c63;font-size:.93em}pre code{background:none;color:inherit;padding:0;font:inherit}label{display:block;font-weight:650;font-size:14px;margin:9px 0 4px}input,textarea,select{color:var(--ink);background:#fbfdfe;border:1px solid #879faf;border-radius:6px;width:100%;font:inherit;padding:8px 9px}textarea{resize:vertical;min-height:40px;tab-size:4}textarea.mono{font-size:14px}select{max-width:310px}.case{padding:12px 0;border-top:1px solid var(--line)}.case h4 span{display:inline-block;background:var(--pale);color:var(--accent);padding:1px 7px;border-radius:4px}.case p{margin:3px 0 6px}.bonus{border:1px solid var(--line);padding:4px 10px;border-radius:6px;margin:9px 0;background:#f8fbfc}summary{cursor:pointer;padding:5px 0;font-weight:650}.micro{font-size:12px;color:var(--muted);margin:3px 0}button{min-height:44px;font:650 14px/1.35 system-ui,sans-serif;cursor:pointer;border:1px solid var(--accent);border-radius:6px;background:var(--accent);color:#fff;padding:8px 12px}button.secondary{background:var(--pale);color:var(--ink);border-color:var(--line)}button:hover{filter:brightness(.94)}:focus-visible{outline:3px solid #b3622a;outline-offset:2px}.buttons,.tail{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tail{justify-content:space-between;padding:5px 0 12px}#feedback:not(:empty){font-weight:650;color:var(--teal)}#feedback[data-state=bad]{color:#813c1b}#report{white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink);background:var(--pale);max-height:390px;overflow:auto}footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 15px 25px}.skip{position:absolute;top:4px;left:5px;transform:translateY(-160%);background:white;padding:8px;z-index:2}.skip:focus{transform:none}#notice:not(:empty){position:fixed;bottom:12px;left:50%;transform:translateX(-50%);max-width:calc(100vw - 20px);padding:8px 14px;border-radius:6px;background:var(--navy);color:white;box-shadow:0 3px 12px #28384838;z-index:2;pointer-events:none}@media(max-width:850px){.shell{grid-template-columns:180px minmax(0,1fr);padding:0 13px;gap:11px}.pair{grid-template-columns:1fr}.rail{padding:9px}}@media(max-width:650px){.hero-inner{padding:16px 13px}.tag{display:none}.shell{display:block;margin-top:10px}.rail{position:static;max-height:none;margin-bottom:11px}.rail nav{grid-template-columns:repeat(2,minmax(0,1fr));margin:7px 0}.rail .nav{font-size:12px}.card{padding:13px}.session input{max-width:280px}.tail button{flex:1 1 125px}.tail span{display:none}.spec{font-size:13px}}@media print{body{background:#fff;color:#000;font-size:10pt}.hero{background:white;color:var(--ink)}.hero .kicker,.hero-inner>div>p:last-child{color:var(--ink)}.rail,.tail,.buttons,button,.tag,#notice,footer,.skip{display:none!important}.shell{display:block;margin:0;padding:0}.step[hidden]{display:block!important}.step{break-before:page}.step:first-of-type{break-before:auto}.card{padding:8px;margin:5px 0}.pair{display:block}pre{background:#edf4f6;color:#172b3b;white-space:pre-wrap}textarea{min-height:42px}}
+
+.timeplan{margin:0 0 15px;padding:10px 13px;border-radius:7px;background:#e2eef1;border:1px solid #bfd6dc;font-size:14px}.timeplan p{font-size:13px;margin-top:3px;color:var(--muted)}.duration{white-space:normal;max-width:135px;text-align:center;min-width:65px}.exercise{margin:9px 0;border:1px solid var(--line);border-radius:7px;padding:5px 11px 10px;background:#f8fbfc}.exercise:not([open]){padding-bottom:5px}.exo-num{display:inline-block;background:#dcebf0;color:#214f67;padding:0 5px;border-radius:3px}.exercise small,.bonus small{display:inline-block;margin-left:8px;color:#3a6568;font-weight:500}.rail .nav small{display:block}.nav .coverage{font-size:10px}input[inputmode=decimal]{max-width:235px}.exercise textarea{min-height:58px}.feedback{font-weight:650;color:var(--teal)}.feedback[data-state=bad],#recall_fb[data-state=bad]{color:#813c1b}#recall_fb:not(:empty){font-weight:650;color:var(--teal)}dialog{width:min(850px,calc(100% - 20px));max-height:90vh;border:1px solid var(--line);border-radius:10px;padding:17px;color:var(--ink);background:white}dialog::backdrop{background:#142a3aba}dialog p{margin:5px 0}dialog ul{padding-left:22px}dialog details{border-top:1px solid var(--line);padding:6px 0}dialog form{margin-top:9px}dialog pre{white-space:pre-wrap;overflow-wrap:anywhere}dialog .summary-status{color:#3d5668;font-size:13px}
+
+.drill-brief{margin:8px 0 10px}
+</style></head><body>
+<a class="skip" href="#content">Aller à l’activité</a><header class="hero"><div class="hero-inner"><div><p class="kicker">BTS MEC · Mathématiques techniques · Python</p><h1>Programmer un outil<br>de chiffrage réutilisable</h1><p>Réactivez vos acquis, dépannez un programme et chiffrez un nouveau chantier.</p></div><span class="tag">DOSSIER 04 · LOT SOLS</span></div></header>
+<noscript><p>Ouvrez ce fichier dans un navigateur avec JavaScript activé pour afficher les pages et sauvegarder vos réponses.</p></noscript>
+<div class="shell"><aside class="rail"><p class="kicker">Séance 04 · Parcours</p><nav aria-label="Pages de l’activité"><button type="button" class="nav" data-go="1" id="nav1"><span class="num">01</span><span><strong>Réactiver les bases</strong><small>15 min</small><small class="coverage" id="cover1"></small></span></button><button type="button" class="nav" data-go="2" id="nav2"><span class="num">02</span><span><strong>Trouver les erreurs</strong><small>15 min</small><small class="coverage" id="cover2"></small></span></button><button type="button" class="nav" data-go="3" id="nav3"><span class="num">03</span><span><strong>Construire l’outil</strong><small>25–35 min</small><small class="coverage" id="cover3"></small></span></button><button type="button" class="nav" data-go="4" id="nav4"><span class="num">04</span><span><strong>Tester et aller plus loin</strong><small>10–15 min + défis</small><small class="coverage" id="cover4"></small></span></button></nav><div class="session"><label for="name">Nom et prénom</label><input id="name" data-save autocomplete="name"><label for="prog">Traces renseignées</label><progress id="prog" value="0" max="100"></progress><p class="micro" id="progtxt"></p><p class="micro" id="saved">Enregistrement local.</p><details><summary>Reprendre ou sauvegarder</summary><div class="buttons"><button class="secondary" type="button" data-export="json">Exporter JSON</button><button class="secondary" type="button" id="load">Reprendre un JSON</button><button class="secondary" type="button" id="readjson">Lire un JSON sans l’importer</button></div></details></div></aside>
+<main id="content"><div class="timeplan"><strong>Tronc commun : 65 à 80 min indicatives</strong> <span>· Défis : 30 à 45 min en plus</span><p>Avancez à votre rythme. Sauvegardez si le cours se termine avant la fin. Les défis restent accessibles aux plus rapides.</p></div><section id="page1" class="step" aria-labelledby="h1">
+ <div class="headstep"><div><p class="kicker">Page 01 / 04</p><h2 tabindex="-1" id="h1">Réactiver les bases</h2><p class="lede">Ouvrez votre éditeur Python habituel. Commencez par définir deux variables, puis exécutez le code au fil des consignes.</p></div><span class="duration">15 min</span></div><article class="card"><div class="kicker">Échauffement · Six exercices à rendre</div><h3>Écrivez le code, puis gardez-en une trace</h3><p>Codez et exécutez dans votre éditeur Python. Collez dans chaque exercice <b>les lignes que vous venez d’écrire</b> et, si demandé, le résultat obtenu. Les exercices 1 à 5 reprennent le même programme.</p><details class="exercise" open><summary><span class="exo-num">01</span> Créer deux variables <small id="r1_stat"></small></summary><div class="drill-brief">Définissez <code>longueur</code> (4,25 m) et <code>largeur</code> (3,5 m). Exécutez vos deux lignes : une affectation seule ne produit aucun affichage.</div><label for="r1_code">Vos lignes Python pour l’exercice 1</label><textarea id="r1_code" data-save rows="2" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></details><details class="exercise"><summary><span class="exo-num">02</span> Calculer une surface <small id="r2_stat"></small></summary><div class="drill-brief">Ajoutez une ligne qui calcule <code>surface</code> à partir des deux variables. Utilisez leurs noms dans votre formule, puis exécutez.</div><label for="r2_code">Vos lignes Python pour l’exercice 2</label><textarea id="r2_code" data-save rows="2" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></details><details class="exercise"><summary><span class="exo-num">03</span> Afficher avec print() <small id="r3_stat"></small></summary><div class="drill-brief">Écrivez un affichage qui présente la surface, avec un libellé et l’unité m². Exécutez pour vérifier votre code. Exemple sur d’autres données :<pre><code>print(&quot;Nombre de locaux :&quot;, nombre, &quot;locaux&quot;)</code></pre></div><label for="r3_code">Vos lignes Python pour l’exercice 3</label><textarea id="r3_code" data-save rows="2" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><label for="r3_val">Surface affichée, sans unité</label><input id="r3_val" type="text" inputmode="decimal" autocomplete="off" data-save></details><details class="exercise"><summary><span class="exo-num">04</span> Arrondir dans print() <small id="r4_stat"></small></summary><div class="drill-brief">Définissez un prix de <strong>23,70 € HT/m²</strong>, calculez <code>cout</code> et affichez-le arrondi à deux décimales avec son unité. Exemple de syntaxe : <code>round(12.3456, 2)</code>.</div><label for="r4_code">Vos lignes Python pour l’exercice 4</label><textarea id="r4_code" data-save rows="3" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><label for="r4_val">Coût arrondi affiché, sans unité</label><input id="r4_val" type="text" inputmode="decimal" autocomplete="off" data-save></details><details class="exercise"><summary><span class="exo-num">05</span> Décider avec if / else <small id="r5_stat"></small></summary><div class="drill-brief">Pour le coût arrondi précédent, affichez « Budget dépassé » s’il est strictement supérieur au budget ; sinon, « Budget respecté ». Testez d’abord <strong>350 €</strong>, puis <strong>352,54 €</strong>. Gardez dans votre extrait le budget de 350 €.<details class="hint"><summary>ⓘ Structure du test</summary><pre><code>if condition:
+    # action si la condition est vraie
+else:
+    # autre action</code></pre></details></div><label for="r5_code">Vos lignes Python pour l’exercice 5</label><textarea id="r5_code" data-save rows="5" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><label for="r5_out">Les deux messages de la console, dans l’ordre des budgets</label><textarea id="r5_out" data-save rows="2" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></details><details class="exercise"><summary><span class="exo-num">06</span> Parcourir et cumuler <small id="r6_stat"></small></summary><div class="drill-brief">Dans un <strong>programme séparé</strong>, créez <code>surfaces = [6, 4, 9]</code>. Calculez la somme dans une boucle <code>for</code> et affichez-la une fois après la boucle.<details class="hint"><summary>ⓘ Structure de la boucle</summary><pre><code>cumul = ...
+for surface in surfaces:
+    cumul = ...</code></pre></details></div><label for="r6_code">Vos lignes Python pour l’exercice 6</label><textarea id="r6_code" data-save rows="5" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><label for="r6_val">Somme affichée, sans unité</label><input id="r6_val" type="text" inputmode="decimal" autocomplete="off" data-save></details><button type="button" id="check_recall">Vérifier les trois valeurs de console</button><p id="recall_fb" role="status"></p><p class="micro">Le contrôle porte sur les valeurs des exercices 3, 4 et 6. Le code et les deux messages de l’exercice 5 seront relus à partir de vos traces.</p></article>
+ <div class="tail"><span></span>
+ <button type="button" data-go="2">Trouver les erreurs →</button></div></section><section id="page2" class="step" aria-labelledby="h2" hidden>
+ <div class="headstep"><div><p class="kicker">Page 02 / 04</p><h2 tabindex="-1" id="h2">Trouver les erreurs</h2><p class="lede">Passez d’un message d’erreur à un résultat fiable.</p></div><span class="duration">15 min</span></div><article class="card"><div class="kicker">Incident · Petit lot sols</div><h3>Réparer le programme sans le réécrire</h3>
+ <p>Trois locaux de <b>6, 4 et 5 m²</b> sont facturés au même prix (<b>20 € HT/m²</b>), sans pertes ni livraison. Le budget est de <b>300 € HT</b>.</p>
+ <p class="note"><b>Résultat attendu :</b> total de 300 € HT et budget respecté.</p>
+ <p>Copiez le programme dans Python et exécutez-le. Corrigez un problème à la fois, puis relancez. Une fois le programme exécutable, comparez <b>le total et le verdict</b> au résultat attendu.</p><pre><code id="bugcode">surfaces = [6.0, 4.0, 5.0]
+prix_m2 = &quot;20&quot;
+budget = 300
+
+for surface in surfaces
+    total = 0
+    total = total + surface * prix_m2
+
+print(&quot;Total :&quot;, round(total, 2), &quot;€ HT&quot;)
+if total &gt;= budget:
+    print(&quot;Budget dépassé&quot;)
+else:
+    print(&quot;Budget respecté&quot;)</code></pre><button type="button" class="secondary" data-copy="bugcode">Copier le code</button><details class="hint"><summary>ⓘ Le programme ne démarre pas</summary><p>Lisez la dernière ligne du message, puis repérez le mot-clé et la ponctuation dans la zone signalée.</p><details class="hint"><summary>ⓘ Indice suivant</summary><p>Vérifiez la fin de la ligne qui ouvre la boucle. Après la première correction, relancez et regardez si Python signale un autre type d’erreur.</p></details></details><details class="hint"><summary>ⓘ Python signale un problème de type</summary><p>Repérez la multiplication citée dans le message. Les deux valeurs multipliées sont-elles des nombres ?</p></details><details class="hint"><summary>ⓘ Le total est incorrect</summary><p>Les valeurs des premiers locaux restent-elles en mémoire quand la boucle recommence ?</p></details><details class="hint"><summary>ⓘ Le verdict est incorrect</summary><p>Quand le total et le budget sont égaux, laquelle des deux branches devrait s’exécuter ?</p></details></article><article class="card"><div class="kicker">Trace à conserver</div><h3>Garder la réparation</h3><label for="bug_msg">Premier message d’erreur : collez la ligne essentielle de la console</label><textarea id="bug_msg" data-save rows="2" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><label for="fix">Votre code corrigé</label><textarea id="fix" data-save rows="8" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><label for="fix_out">Sortie obtenue (total et verdict)</label><textarea id="fix_out" data-save rows="2" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></article>
+ <div class="tail"><button type="button" class="secondary" data-go="1">← Page précédente</button>
+ <button type="button" data-go="3">Construire l’outil →</button></div></section><section id="page3" class="step" aria-labelledby="h3" hidden>
+ <div class="headstep"><div><p class="kicker">Page 03 / 04</p><h2 tabindex="-1" id="h3">Construire l’outil</h2><p class="lede">Écrivez votre programme à partir du cahier des charges. Le HTML guide le travail ; les programmes s’exécutent dans votre éditeur Python.</p></div><span class="duration">25–35 min</span></div><div class="pair"><article class="card"><div class="kicker">Cahier des charges · Chantier principal</div><h3>Lot sols : trois locaux</h3>
+ <dl class="spec"><dt>Surfaces à poser</dt><dd>24, 18 et 12 m²</dd><dt>Pertes de coupe</dt><dd>10 %</dd><dt>Fourniture</dt><dd>20 € HT/m² fourni</dd><dt>Pose</dt><dd>14 € HT/m² posé</dd><dt>Livraison</dt><dd>60 € HT / chantier</dd><dt>Budget</dt><dd>2 050 € HT</dd></dl></article><article class="card"><div class="kicker">Départ · À copier dans Python</div><h3>Les données seules</h3><pre><code id="startcode">surfaces = [24, 18, 12]
+pertes = 0.10
+prix_fourniture = 20
+prix_pose = 14
+livraison = 60
+budget = 2050</code></pre><button type="button" class="secondary" data-copy="startcode">Copier le code</button></article></div><article class="card"><div class="kicker">Mission · Programme à écrire</div><h3>Livrer un outil qui fonctionne si la liste change</h3>
+ <ol class="brief"><li>Traitez tous les locaux avec <b>une seule boucle</b>. Pour chaque local, affichez la surface et le coût HT hors livraison.</li>
+ <li>Les pertes augmentent la <b>surface à fournir</b>. La pose reste calculée sur la <b>surface à poser</b>. Ajoutez la livraison <b>une seule fois</b>, pour tout le chantier.</li>
+ <li>Affichez le total HT, puis le verdict et l’écart : montant restant ou montant dépassé. L’égalité respecte le budget.</li></ol>
+ <p>Gardez les valeurs intermédiaires non arrondies pour le cumul. Arrondissez les montants affichés à deux décimales avec <code>round()</code>. Comparez le <b>total arrondi</b> au budget.</p>
+ <p class="note"><b>Valeur de référence :</b> le chantier initial doit donner <b>2 004 € HT</b>. Python peut afficher <code>2004.0</code> : c’est la même valeur.</p><details class="hint"><summary>ⓘ J’ai besoin de découper le programme</summary><p>Avant la boucle : les données et le cumul. Dans la boucle : le coût d’un local, son affichage et son ajout au cumul. Après la boucle : le coût du chantier et la décision.</p></details><details class="hint"><summary>ⓘ J’hésite sur la fourniture ou la pose</summary><p>Multipliez la surface à poser par <code>1 + pertes</code> pour obtenir la surface fournie. Appliquez chaque prix à la surface correspondante.</p></details><label for="program">Votre programme final (avec les données initiales)</label><textarea id="program" data-save rows="10" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></article>
+ <div class="tail"><button type="button" class="secondary" data-go="2">← Page précédente</button>
+ <button type="button" data-go="4">Tester et aller plus loin →</button></div></section><section id="page4" class="step" aria-labelledby="h4" hidden>
+ <div class="headstep"><div><p class="kicker">Page 04 / 04</p><h2 tabindex="-1" id="h4">Tester et aller plus loin</h2><p class="lede">Vérifiez que le programme réagit quand le budget ou la liste des locaux change.</p></div><span class="duration">10–15 min + défis</span></div><article class="card"><div class="kicker">Validation · Trois exécutions</div><h3>Tester la modification des données</h3>
+ <p>Pour chaque essai, <b>prévoyez le verdict, exécutez, puis collez la sortie Python</b>. Gardez uniquement les lignes du résultat, sans explication longue.</p>
+ <section class="case"><h4><span>A</span> Chantier initial</h4><p>Conservez les trois surfaces et le budget de <b>2 050 €</b>.</p>
+ <label for="pred_a">Verdict prévu</label><select id="pred_a" data-save><option value="">Choisir avant d’exécuter</option><option value="respecte">Budget respecté</option><option value="depasse">Budget dépassé</option></select>
+ <label for="out_a">Sortie Python de l’essai A</label><textarea id="out_a" data-save rows="3" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></section><section class="case"><h4><span>B</span> Égalité</h4><p>Gardez les trois surfaces. Réglez le budget à <b>2 004 €</b>.</p>
+ <label for="pred_b">Verdict prévu</label><select id="pred_b" data-save><option value="">Choisir avant d’exécuter</option><option value="respecte">Budget respecté</option><option value="depasse">Budget dépassé</option></select>
+ <label for="out_b">Sortie Python de l’essai B</label><textarea id="out_b" data-save rows="3" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></section><section class="case"><h4><span>C</span> Nouveau local</h4><p>Revenez au budget de <b>2 050 €</b> et ajoutez <b>5 m²</b> à la liste. Ne modifiez aucune formule.</p>
+ <label for="pred_c">Verdict prévu</label><select id="pred_c" data-save><option value="">Choisir avant d’exécuter</option><option value="respecte">Budget respecté</option><option value="depasse">Budget dépassé</option></select>
+ <label for="out_c">Sortie Python de l’essai C</label><textarea id="out_c" data-save rows="3" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></section><button type="button" id="check">Vérifier mes prévisions</button><p id="feedback" role="status"></p>
+ <p class="micro">Le bouton vérifie vos prévisions, pas le code ni la console. Relisez les trois sorties pour confirmer que les résultats correspondent.</p>
+ <p class="note">Après l’essai C, rétablissez <b>les trois surfaces et le budget initial</b> dans le code remis en page 3.</p><label for="change">Si vous avez corrigé quelque chose : une phrase sur le changement (facultatif)</label><textarea id="change" data-save rows="2"></textarea></article><article class="card"><div class="kicker">Pour aller plus loin · 30 à 45 min en plus</div><h3>Trois défis de programmation</h3><p>Commencez dès que vos trois essais sont terminés. Chaque défi se fait dans une copie du programme et peut se poursuivre après la séance. Gardez une trace pour chaque défi tenté.</p><details class="bonus"><summary>Défi 01 · Compter les locaux coûteux <small id="d01_stat"></small></summary><p>Partez du chantier initial. Comptez les locaux dont le coût hors livraison <b>dépasse strictement 650 € HT</b>, puis affichez ce nombre après la boucle.</p><details class="hint"><summary>ⓘ Indice</summary><div>Créez un compteur à 0 avant la boucle. Dans la boucle, ajoutez 1 seulement si le coût du local dépasse le seuil.</div></details><label for="d01_code">Code du défi 01</label><textarea id="d01_code" data-save rows="4" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><label for="d01_out">Sortie(s) Python du défi 01</label><textarea id="d01_out" data-save rows="2" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></details><details class="bonus"><summary>Défi 02 · Comparer deux offres <small id="d02_stat"></small></summary><p>Comparez l’offre initiale avec une offre B à <b>19 € HT/m² fourni</b> et <b>17 % de pertes</b>. La pose, les surfaces et la livraison ne changent pas. Affichez les deux totaux, l’offre la moins chère et l’écart. Prévoyez aussi le cas où les prix sont égaux.</p><details class="hint"><summary>ⓘ Indice</summary><div>Utilisez deux cumuls de coûts hors livraison dans une même boucle. Comparez les totaux arrondis.</div></details><label for="d02_code">Code du défi 02</label><textarea id="d02_code" data-save rows="4" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><label for="d02_out">Sortie(s) Python du défi 02</label><textarea id="d02_out" data-save rows="2" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></details><details class="bonus"><summary>Défi 03 · Rendre le calcul réutilisable <small id="d03_stat"></small></summary><p>Isolez le calcul du coût HT d’un local hors livraison dans une fonction <code>cout_local()</code>. Utilisez-la dans votre boucle. Vérifiez ensuite que les résultats des essais A et C restent identiques.</p><details class="hint"><summary>ⓘ Indice</summary><div>Écrivez <code>def cout_local(surface, taux_pertes, prix_fourniture, prix_pose):</code> et faites retourner le résultat calculé. Sur un autre exemple : <pre><code>def aire_rectangle(longueur, largeur):
+    return longueur * largeur
+
+print(aire_rectangle(4, 3))</code></pre></div></details><label for="d03_code">Code du défi 03</label><textarea id="d03_code" data-save rows="4" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><label for="d03_out">Sortie(s) Python du défi 03</label><textarea id="d03_out" data-save rows="2" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></details><div id="legacy_bonus" hidden><label for="bonus">Trace facultative importée de la version précédente</label><textarea id="bonus" data-save rows="3" class="mono" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></div></article><article class="card"><div class="kicker">Remise · Fichier texte</div><h3>Exporter pour Classroom</h3><p>Exportez le <b>TXT</b> pour lire vos réponses et le <b>JSON</b> pour conserver la progression et reprendre sur un autre poste. Déposez les deux fichiers sur Classroom, même si tout n’est pas terminé. Rien n’est envoyé automatiquement.</p>
+ <div class="buttons"><button type="button" data-export="txt">Exporter le dossier (.txt)</button><button type="button" class="secondary" data-export="json">Sauvegarder (.json)</button><button type="button" class="secondary" id="recap" aria-expanded="false" aria-controls="report">Voir le récapitulatif</button></div><pre id="report" hidden></pre></article>
+ <div class="tail"><button type="button" class="secondary" data-go="3">← Page précédente</button>
+ </div></section></main></div><footer>BTS MEC · S4 · Exécuter, déboguer, programmer, tester</footer>
+<input id="import" type="file" aria-label="Sélectionner un fichier de reprise JSON" accept=".json,application/json" hidden><input id="readfile" type="file" aria-label="Sélectionner une sauvegarde JSON à consulter" accept=".json,application/json" hidden><dialog id="reader" aria-labelledby="reader_title"><h2 id="reader_title">Lecture de sauvegarde</h2><p>Lecture seule : votre travail en cours n’est pas remplacé.</p><div id="reader_summary"></div><div id="reader_details"></div><form method="dialog"><button type="submit">Fermer</button></form></dialog><div id="notice" role="status"></div><script>'use strict';
+const $=id=>document.getElementById(id), all=s=>Array.from(document.querySelectorAll(s));
+const key='bts-mec-s4-chiffrage-v1';
+const fields=all('[data-save]');
+const drills=[
+ ['Créer deux variables','r1_code'],['Calculer une surface','r2_code'],
+ ['Afficher avec print()','r3_code','r3_val'],['Arrondir dans print()','r4_code','r4_val'],
+ ['Décider avec if / else','r5_code','r5_out'],['Parcourir et cumuler','r6_code','r6_val']
+];
+const tests=[
+ ['Essai A · Chantier initial','pred_a','out_a'],['Essai B · Égalité','pred_b','out_b'],['Essai C · Nouveau local','pred_c','out_c']
+];
+const bonus=[
+ ['Compter les locaux coûteux','d01_code','d01_out'],['Comparer deux offres','d02_code','d02_out'],['Rendre le calcul réutilisable','d03_code','d03_out']
+];
+const steps=[
+ ['Réactiver les bases',drills],
+ ['Trouver les erreurs',[['Premier message d’erreur','bug_msg'],['Code corrigé','fix'],['Sortie du code corrigé','fix_out']]],
+ ['Construire l’outil',[['Programme final','program']]],
+ ['Tester et aller plus loin',tests]
+];
+const auto={
+ rappel:[['r3_val',14.875],['r4_val',352.54],['r6_val',19]],
+ essais:[['pred_a','respecte'],['pred_b','respecte'],['pred_c','depasse']]
+};
+const groupSections=['rappel',null,null,'essais'];
+const controlNames={rappel:'Valeurs du rappel',essais:'Prévisions des essais'};
+let state={format:key,version:2,page:1,data:{},checks:{}}, noticeTimer, restored=false;
+function decode(x){
+ if(!x||x.format!==key||(x.version!==undefined&&x.version!==2)||!Number.isInteger(x.page)||x.page<1||x.page>4||!x.data||typeof x.data!=='object'||Array.isArray(x.data))throw Error();
+ const data={},checks={};
+ for(const f of fields){
+  if(!Object.hasOwn(x.data,f.id))continue;
+  const v=x.data[f.id];
+  if(typeof v!=='string'||v.length>100000||(f.tagName==='SELECT'&&!Array.from(f.options).some(o=>o.value===v)))throw Error();
+  data[f.id]=v;
+ }
+ for(const g of Object.keys(auto)){
+  const c=x.checks?.[g];if(!c||typeof c!=='object')continue;
+  const cvalues={};
+  for(const [id] of auto[g])if(typeof c.values?.[id]==='string'&&c.values[id].length<=300)cvalues[id]=c.values[id];
+  checks[g]={count:Number.isInteger(c.count)&&c.count>0?Math.min(c.count,999):1,values:cvalues};
+ }
+ return {format:key,version:2,page:x.page,data,checks};
+}
+try{const raw=localStorage.getItem(key);if(raw){state=decode(JSON.parse(raw));restored=true;}}catch{}
+const filled=(s,id)=>!!s.data[id]?.trim();
+const count=(s,rows)=>rows.filter(([, ...ids])=>ids.every(id=>filled(s,id))).length;
+function judge(g,id,raw,expected){
+ const v=raw.trim();
+ if(g==='essais')return v===expected;
+ const n=v.replace(/[ \u00a0\u202f]/g,'').replace(',','.');
+ return /^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(n)&&Math.abs(Number(n)-expected)<1e-7;
+}
+function control(s,g){
+ const pairs=auto[g], c=s.checks[g];
+ if(!c)return {label:'pas encore vérifié',count:0};
+ const matched=pairs.filter(([id,value])=>judge(g,id,c.values[id]||'',value)).length;
+ const same=pairs.every(([id])=>(s.data[id]||'').trim()===(c.values[id]||''));
+ return {label:same?matched+' / '+pairs.length+' conformes au dernier contrôle':'réponses modifiées depuis le dernier contrôle',count:c.count,matched,total:pairs.length,current:same};
+}
+function progressSummary(s){
+ return steps.map(([title,rows],i)=>{
+  const nb=count(s,rows);
+  return {page:i+1,titre:title,traces_completes:nb,traces_attendues:rows.length,...(groupSections[i]?{controle:control(s,groupSections[i])}: {})};
+ });
+}
+function challenges(s){
+ return bonus.map(([titre,code,out],i)=>({defi:i+1,titre,etat:filled(s,code)&&filled(s,out)?'code et sortie renseignés':filled(s,code)||filled(s,out)?'commencé':'non tenté'}));
+}
+function notice(msg){$('notice').textContent=msg;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('notice').textContent='',4500)}
+function persist(prefix=''){
+ try{localStorage.setItem(key,JSON.stringify(state));$('saved').textContent=prefix||'Enregistré dans ce navigateur.';}
+ catch{$('saved').textContent='Enregistrement local indisponible : exportez le JSON.';}
+}
+function paintStatus(){
+ const items=progressSummary(state);
+ const done=items.reduce((a,x)=>a+x.traces_completes,0),total=items.reduce((a,x)=>a+x.traces_attendues,0);
+ $('prog').max=total;$('prog').value=done;$('progtxt').textContent=done+' / '+total+' traces complètes · sans note';
+ items.forEach(({page,traces_completes,traces_attendues})=>$('cover'+page).textContent=traces_completes+' / '+traces_attendues+' traces complètes');
+ drills.forEach(([, ...ids],i)=>$('r'+(i+1)+'_stat').textContent=ids.every(id=>filled(state,id))?'Trace complète':ids.some(id=>filled(state,id))?'Commencé':'');
+ challenges(state).forEach(({defi,etat})=>$('d0'+defi+'_stat').textContent=etat==='non tenté'?'':etat);
+ $('legacy_bonus').hidden=!filled(state,'bonus');
+}
+function render(focus=false){
+ for(let i=1;i<=4;i++){
+  $('page'+i).hidden=i!==state.page;
+  if(i===state.page)$('nav'+i).setAttribute('aria-current','step');
+  else $('nav'+i).removeAttribute('aria-current');
+ }
+ if(focus){$('h'+state.page).focus({preventScroll:true});$('content').scrollIntoView({block:'start'});}
+}
+function setFeedback(id,text,bad=false){
+ const f=$(id);f.textContent=text;f.dataset.state=bad?'bad':'ok';
+}
+function restore(){
+ fields.forEach(f=>f.value=state.data[f.id]||'');
+ setFeedback('feedback','');setFeedback('recall_fb','');paintStatus();
+ if(!$('report').hidden)$('report').textContent=report(state);
+}
+const descriptions={
+  r3_val:'Surface affichée',r4_val:'Coût affiché',r5_out:'Deux messages de console',r6_val:'Cumul affiché',fix_out:'Sortie de la console',bug_msg:'Premier message ou type d’erreur',
+  program:'Programme final',fix:'Code corrigé'
+};
+const selectLabel=v=>v==='respecte'?'Budget respecté':v==='depasse'?'Budget dépassé':null;
+function label(id){return descriptions[id]|| (id.startsWith('pred_')?'Verdict prévu':id.match(/out/) ?'Sortie Python':'Code');}
+function display(s,id){
+ const v=s.data[id];
+ return filled(s,id)?(id.startsWith('pred_')?selectLabel(v):v.trimEnd()):'[non renseigné]';
+}
+function linesFor(s,rows) {
+ return rows.flatMap(([title,...ids])=>['',title,...ids.flatMap(k=>[label(k)+' :',display(s,k)])]);
+}
+function report(s){
+ const out=['BTS MEC — S4 | Programmer un outil de chiffrage réutilisable','Nom et prénom : '+display(s,'name'),'Dernière page ouverte : '+s.page+' / 4','','PROGRESSION (traces présentes, pas une note)'];
+ progressSummary(s).forEach(p=>{out.push('0'+p.page+' '+p.titre+' : '+p.traces_completes+' / '+p.traces_attendues+(p.controle?' · '+p.controle.label:''));});
+ steps.forEach(([title,rows],i)=>out.push('','0'+(i+1)+' | '+title.toUpperCase(),...linesFor(s,rows)));
+ if(filled(s,'change'))out.push('','Correction effectuée :',display(s,'change'));
+ const active=bonus.filter(([, ...ids])=>ids.some(id=>filled(s,id)));
+ if(active.length)out.push('','DÉFIS FACULTATIFS',...linesFor(s,active));
+ if(filled(s,'bonus'))out.push('','Défi (trace de la version précédente) :',display(s,'bonus'));
+ return out.join('\n');
+}
+function download(ext){
+ const raw=$('name').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9_-]+/gi,'_').slice(0,60)||'dossier';
+ const snapshot={format:key,version:2,page:state.page,progression:progressSummary(state),defis:challenges(state),data:state.data,checks:state.checks};
+ const url=URL.createObjectURL(new Blob([ext==='json'?JSON.stringify(snapshot,null,2):report(state)],{type:ext==='json'?'application/json':'text/plain;charset=utf-8'}));
+ const a=document.createElement('a');a.href=url;a.download='BTS_MEC_S4_'+raw+'.'+ext;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+ notice(ext==='txt'?'Dossier TXT téléchargé.':'Sauvegarde JSON téléchargée.');
+}
+fields.forEach(f=>f.addEventListener('input',()=>{
+ state.data[f.id]=f.value;
+ if(auto.rappel.some(([id])=>id===f.id))setFeedback('recall_fb','');
+ if(f.id.startsWith('pred_'))setFeedback('feedback','');
+ paintStatus();persist();if(!$('report').hidden)$('report').textContent=report(state);
+}));
+all('[data-go]').forEach(b=>b.addEventListener('click',()=>{state.page=Number(b.dataset.go);render(true);persist();}));
+all('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{
+ const t=$(b.dataset.copy);
+ try{await navigator.clipboard.writeText(t.textContent);notice('Code copié. Collez-le dans votre éditeur Python.');}
+ catch{const range=document.createRange();range.selectNodeContents(t);const sel=window.getSelection();if(sel){sel.removeAllRanges();sel.addRange(range);}notice('Code sélectionné : Ctrl+C (ou Cmd+C) pour le copier.');}
+}));
+all('[data-export]').forEach(b=>b.addEventListener('click',()=>download(b.dataset.export)));
+$('load').addEventListener('click',()=>$('import').click());
+$('readjson').addEventListener('click',()=>$('readfile').click());
+async function read(e,readonly){
+ const f=e.target.files[0];if(!f)return;
+ try{
+  if(f.size>4200000)throw Error();
+  const candidate=decode(JSON.parse(await f.text()));
+  if(readonly){readOnly(candidate);return;}
+  if(fields.some(x=>x.value.trim())&&!confirm('Remplacer le travail actuel par cette sauvegarde ?'))return;
+  state=candidate;restore();render(true);persist('Sauvegarde importée et enregistrée.');notice('Travail restauré.');
+ }catch{notice('Lecture impossible : choisissez un fichier JSON exporté depuis cette S4.');}
+ finally{e.target.value='';}
+}
+$('import').addEventListener('change',e=>read(e,false));
+$('readfile').addEventListener('change',e=>read(e,true));
+function element(name,value){
+ const el=document.createElement(name);if(value)el.textContent=value;return el;
+}
+function readOnly(s){
+ const items=progressSummary(s);
+ const list=element('ul');
+ items.forEach(p=>list.append(element('li','Page '+p.page+' · '+p.titre+' : '+p.traces_completes+' / '+p.traces_attendues+' traces complètes'+(p.controle?' · '+p.controle.label+' ('+p.controle.count+' contrôle(s))':''))));
+ $('reader_summary').replaceChildren(element('h3',display(s,'name')==='[non renseigné]'?'Étudiant non identifié':display(s,'name')),element('p','Dernière page ouverte : '+s.page+' / 4. Les traces présentes ne constituent pas une note.'),list,element('p',challenges(s).map(x=>'Défi '+x.defi+' : '+x.etat).join(' · ')));
+ const wrap=$('reader_details');wrap.replaceChildren();
+ function section(title,rows,extra=[]){
+  const d=element('details');d.append(element('summary',title),element('pre',[...linesFor(s,rows),...extra].join('\n').trim()));wrap.append(d);
+ }
+ steps.forEach(([title,rs],i)=>section('Page '+(i+1)+' · '+title,rs,i===3&&filled(s,'change')?['','Correction effectuée :',display(s,'change')]:[]));
+ section('Défis facultatifs',bonus,filled(s,'bonus')?['','Trace de la version précédente :',display(s,'bonus')]:[]);
+ const dlg=$('reader');if(!dlg.open)dlg.showModal();
+}
+function verify(g){
+ const pairs=auto[g], values=Object.fromEntries(pairs.map(([id])=>[id,$(id).value.trim().slice(0,300)]));
+ const count=Math.min(999,(state.checks[g]?.count||0)+1);
+ state.checks[g]={count,values};
+ const bad=pairs.find(([id,n])=>!judge(g,id,values[id],n)), fb=g==='essais'?'feedback':'recall_fb';
+ if(!bad){
+  setFeedback(fb,g==='essais'?'Les trois prévisions concordent. Comparez-les aux sorties Python.':'Les trois valeurs concordent. Relisez votre code avant de passer à la suite.');
+ }else{
+  const [id]=bad;
+  const hints={r3_val:['Exercice 3','Reprenez les dimensions et la multiplication.'],r4_val:['Exercice 4','Vérifiez le coût et l’arrondi à deux décimales.'],r6_val:['Exercice 6','Vérifiez la boucle et l’emplacement du total.'],pred_a:['Essai A','Comparez le total au budget de départ.'],pred_b:['Essai B','Que se passe-t-il si le total est exactement égal au budget ?'],pred_c:['Essai C','Tenez compte du local ajouté et du budget rétabli.']};
+  setFeedback(fb,hints[id][0]+' : '+(!values[id]?'renseignez le champ.':hints[id][1]),true);
+  const target=$(id),panel=target.closest('details');if(panel)panel.open=true;target.focus();
+ }
+ persist();
+}
+$('check').addEventListener('click',()=>verify('essais'));
+$('check_recall').addEventListener('click',()=>verify('rappel'));
+$('recap').addEventListener('click',()=>{const p=$('report');p.hidden=!p.hidden;p.textContent=report(state);$('recap').setAttribute('aria-expanded',String(!p.hidden));$('recap').textContent=p.hidden?'Voir le récapitulatif':'Masquer le récapitulatif';});
+restore();render();persist(restored?'Travail repris sur ce navigateur.':'');
+</script></body></html>
